@@ -1,0 +1,158 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion build_versions.compile_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId "com.nan.xarch"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.app_version_code
+        versionName build_versions.app_version_name
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": paths.room_schema]
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            minifyEnabled false
+            shrinkResources false
+            manifestPlaceholders = [
+                    networkSecurityConfig: "@xml/network_security_config_test"
+            ]
+        }
+        release {
+            debuggable false
+            jniDebuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [
+                    networkSecurityConfig: "@xml/network_security_config"
+            ]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    lintOptions {
+        disable 'RestrictedApi'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    // 测试
+    testImplementation("junit:junit:${versions.junit}")
+    androidTestImplementation("androidx.test.ext:junit:${versions.androidx_junit}")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${build_versions.kotlin}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${build_versions.kotlin}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${build_versions.kotlin}")
+    // 协程
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlin_coroutines}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin_coroutines}")
+
+    // Android官方库
+    implementation("androidx.appcompat:appcompat:${versions.androidx_appcompat}")
+    implementation("androidx.core:core-ktx:${versions.androidx_core}")
+    implementation("androidx.recyclerview:recyclerview:${versions.androidx_recyclerview}")
+    implementation("androidx.constraintlayout:constraintlayout:${versions.androidx_constraintlayout}")
+    implementation("androidx.annotation:annotation:${versions.androidx_annotation}")
+    implementation("com.google.android.material:material:${versions.android_material}")
+    implementation("androidx.arch.core:core-runtime:${versions.androidx_arch_core}")
+    implementation("androidx.arch.core:core-common:${versions.androidx_arch_core}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${versions.androidx_lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${versions.androidx_lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx_lifecycle}")
+    implementation("androidx.activity:activity-ktx:${versions.androidx_activity_ktx}")
+    implementation("androidx.fragment:fragment-ktx:${versions.androidx_fragment_ktx}")
+    implementation("androidx.room:room-runtime:${versions.androidx_room}")
+    implementation("androidx.room:room-rxjava2:${versions.androidx_room}")
+    implementation("androidx.room:room-ktx:${versions.androidx_room}")
+    kapt("androidx.room:room-compiler:${versions.androidx_room}")
+    implementation("androidx.work:work-runtime:${versions.androidx_work_manager}")
+    implementation("androidx.work:work-runtime-ktx:${versions.androidx_work_manager}")
+
+    // 微信MMKV
+    implementation("com.tencent:mmkv:${versions.mmkv}")
+
+    // LeakCanary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${versions.leakcanary}"
+
+    // JSON
+    implementation("com.alibaba:fastjson:${versions.fastjson}")
+    implementation("com.google.code.gson:gson:${versions.gson}")
+
+    // Retrofit2
+    implementation("com.squareup.retrofit2:retrofit:${versions.retrofit2}")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit2}")
+    implementation("com.squareup.retrofit2:converter-gson:${versions.retrofit2}")
+    implementation("com.squareup.retrofit2:converter-scalars:${versions.retrofit2}")
+
+    // OkIO
+    implementation("com.squareup.okio:okio:${versions.okio}")
+
+    // OkHttp
+    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp3}")
+    implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp3}")
+
+    // RxJava
+    implementation("io.reactivex.rxjava2:rxjava:${versions.rxjava2}")
+    implementation("io.reactivex.rxjava2:rxandroid:${versions.rxandroid2}")
+
+    // 微信分享SDK
+    implementation("com.tencent.mm.opensdk:wechat-sdk-android-without-mta:${versions.wechat_sdk}")
+
+    // Gif
+    implementation("pl.droidsonroids.gif:android-gif-drawable:${versions.gif}")
+
+    // Lottie
+    implementation("com.airbnb.android:lottie:${versions.lottie}")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:${versions.glide}")
+    implementation("com.github.bumptech.glide:okhttp3-integration:${versions.glide}")
+    kapt("com.github.bumptech.glide:compiler:${versions.glide}")
+
+    // ImmersionBar(状态栏、导航栏适配)
+    implementation("com.gyf.immersionbar:immersionbar:${versions.immersionbar}")
+    // fragment快速实现
+    implementation("com.gyf.immersionbar:immersionbar-components:${versions.immersionbar}")
+    // kotlin扩展
+    implementation("com.gyf.immersionbar:immersionbar-ktx:${versions.immersionbar}")
+
+    // 右滑返回
+    implementation("me.imid.swipebacklayout.lib:library:${versions.swipebacklayout}")
+
+    // 下拉刷新
+    implementation("in.srain.cube:ultra-ptr:${versions.ptr}")
+
+    // 加载动画
+    implementation("com.ldoublem.loadingview:loadingviewlib:${versions.loadingview}")
+}

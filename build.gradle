@@ -1,0 +1,16 @@
+buildscript {
+    apply from: 'config.gradle'
+    addRepos(repositories)
+    dependencies {
+        classpath "com.android.tools.build:gradle:$build_versions.android_gradle_plugin"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${build_versions.kotlin}"
+    }
+}
+
+allprojects {
+    addRepos(repositories)
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

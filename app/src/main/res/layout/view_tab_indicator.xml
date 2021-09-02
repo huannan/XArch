@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><!--底栏总高度52dp-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/tab_icon"
+        android:layout_width="@dimen/bottom_tab_image_size"
+        android:layout_height="@dimen/bottom_tab_image_size"
+        android:layout_marginTop="11dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/selector_btn_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tab_title"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="sans-serif-mediumf"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tab_icon"
+        tools:ignore="SmallSp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,20 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.XArch" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/theme_color</item>
+    </style>
+
+    <!--无标题栏样式-->
+    <style name="ActivityTheme" parent="Theme.XArch">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--有标题栏样式-->
+    <style name="ActionBarActivityTheme" parent="Theme.XArch">
+
+    </style>
+
+</resources>

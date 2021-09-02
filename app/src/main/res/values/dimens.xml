@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="navigation_height">86dp</dimen>
+    <dimen name="bottom_bar_padding">15dp</dimen>
+    <dimen name="line_height">0.7dp</dimen>
+    <dimen name="bottom_tab_image_size">24dp</dimen>
+</resources>
