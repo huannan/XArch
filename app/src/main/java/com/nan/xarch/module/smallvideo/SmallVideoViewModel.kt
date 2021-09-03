@@ -3,17 +3,18 @@ package com.nan.xarch.module.smallvideo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.nan.xarch.base.BaseViewModel
+import com.nan.xarch.bean.VideoBean
 import com.nan.xarch.constant.PageName
 import com.nan.xarch.network.NetworkApi
 import kotlinx.coroutines.launch
 
 class SmallVideoViewModel : BaseViewModel() {
 
-    val helloWorldLiveData = MutableLiveData<Result<String>>()
+    val helloWorldLiveData = MutableLiveData<Result<VideoBean>>()
 
-    fun requestHelloWorld() {
+    fun requestVideoDetail(id: String) {
         viewModelScope.launch {
-            val result = NetworkApi.requestHelloWorld()
+            val result = NetworkApi.requestVideoDetail(id)
             helloWorldLiveData.value = result
         }
     }

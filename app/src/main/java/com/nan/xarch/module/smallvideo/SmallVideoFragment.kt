@@ -1,7 +1,6 @@
 package com.nan.xarch.module.smallvideo
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,14 +26,14 @@ class SmallVideoFragment : BaseFragment() {
 
     private fun initView() {
         viewModel.helloWorldLiveData.observe(viewLifecycleOwner) {
-            val helloWorld = it.getOrNull()
-            if (!TextUtils.isEmpty(helloWorld)) {
-                viewBinding.tvHello.text = helloWorld
+            val video = it.getOrNull()
+            if (null != video) {
+                viewBinding.tvHello.text = "${video.id}-${video.title}"
             } else {
                 viewBinding.tvHello.text = resources.getString(R.string.page_state_network_error)
             }
         }
-        viewModel.requestHelloWorld()
+        viewModel.requestVideoDetail("100")
     }
 
     @PageName

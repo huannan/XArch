@@ -1,15 +1,16 @@
 package com.nan.xarch.network
 
+import com.nan.xarch.bean.VideoBean
 import com.nan.xarch.network.base.BaseNetworkApi
 
 /**
  * 网络请求具体实现
  */
-object NetworkApi : BaseNetworkApi<INetworkService>("http://172.16.47.112:8080/TestServer/") {
+object NetworkApi : BaseNetworkApi<INetworkService>("http://172.16.47.112:8080/XArchServer/") {
 
-    suspend fun requestHelloWorld(): Result<String> {
+    suspend fun requestVideoDetail(id: String): Result<VideoBean> {
         return getResult {
-            service.requestHelloWorld()
+            service.requestVideoDetail(id)
         }
     }
 }
