@@ -46,9 +46,9 @@ class HomeFragment : BaseFragment() {
                 })
         )
 
-        XEventBus.with("event_refresh_list", String::class.java).observe(viewLifecycleOwner) {
+        XEventBus.observe(viewLifecycleOwner, "event_refresh_list") { message: String ->
             viewBinding.rvList.refreshList()
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 
