@@ -9,7 +9,7 @@ import com.nan.xarch.network.base.BaseNetworkApi
 object NetworkApi : BaseNetworkApi<INetworkService>("http://172.16.47.112:8080/XArchServer/") {
 
     suspend fun requestVideoDetail(id: String): Result<VideoBean> {
-        return getResult {
+        return getResult() {
             service.requestVideoDetail(id)
         }
     }

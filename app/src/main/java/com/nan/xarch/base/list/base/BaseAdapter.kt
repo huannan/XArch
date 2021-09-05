@@ -16,7 +16,6 @@ open class BaseAdapter : MultiTypeAdapter() {
     }
 
     open fun setViewData(viewData: List<BaseViewData<*>>) {
-        items
         items.clear()
         items.addAll(viewData)
         notifyDataSetChanged()

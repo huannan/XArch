@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.nan.xarch.base.BaseFragment
+import com.nan.xarch.constant.EventName
 import com.nan.xarch.constant.PageName
 import com.nan.xarch.databinding.FragmentGoldBinding
 import com.nan.xarch.eventbus.XEventBus
@@ -26,7 +27,7 @@ class GoldFragment : BaseFragment() {
 
     private fun initView() {
         viewBinding.tvGold.setOnClickListener {
-            XEventBus.post("event_refresh_list", "领现金页面通知首页刷新数据")
+            XEventBus.post(EventName.REFRESH_HOME_LIST, "领现金页面通知首页刷新数据")
         }
     }
 

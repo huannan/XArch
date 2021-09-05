@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.nan.xarch.base.list.base.BaseRecyclerViewModel
 import com.nan.xarch.bean.User
 import com.nan.xarch.constant.PageName
-import com.nan.xarch.database.XDatabase
+import com.nan.xarch.persistence.database.XDatabase
 import com.nan.xarch.item.Test3ViewData
 import kotlinx.coroutines.launch
 

@@ -21,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nan.xarch.R
 import com.nan.xarch.base.list.base.BaseRecyclerViewModel
 import com.nan.xarch.base.list.base.BaseViewData
-import com.nan.xarch.bean.LoadError
 import com.nan.xarch.base.list.loadmore.LoadMoreAdapter
 import com.nan.xarch.base.list.loadmore.LoadMoreRecyclerView
 import com.nan.xarch.base.list.pullrefresh.PullRefreshLayout
+import com.nan.xarch.bean.LoadError
+import com.nan.xarch.bean.exception.GlobalException
 import com.nan.xarch.constant.LoadMoreState
 import com.nan.xarch.databinding.ViewXRecyclerBinding
-import com.nan.xarch.bean.exception.GlobalException
 import com.nan.xarch.item.LoadMoreViewData
 import com.nan.xarch.util.isNetworkConnect
 import com.nan.xarch.util.toNetworkSetting
@@ -102,6 +102,7 @@ class XRecyclerView @JvmOverloads constructor(
             // 关闭下拉刷新动画
             viewBinding.refreshLayout.run {
                 if (isRefreshing) {
+                    refreshComplete()
                     refreshComplete()
                 }
             }

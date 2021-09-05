@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nan.xarch.base.BaseFragment
 import com.nan.xarch.base.list.XRecyclerView
 import com.nan.xarch.base.list.base.BaseViewData
+import com.nan.xarch.constant.EventName
 import com.nan.xarch.constant.PageName
 import com.nan.xarch.databinding.FragmentHomeBinding
 import com.nan.xarch.eventbus.XEventBus
@@ -46,7 +47,7 @@ class HomeFragment : BaseFragment() {
                 })
         )
 
-        XEventBus.observe(viewLifecycleOwner, "event_refresh_list") { message: String ->
+        XEventBus.observe(viewLifecycleOwner, EventName.REFRESH_HOME_LIST) { message: String ->
             viewBinding.rvList.refreshList()
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }

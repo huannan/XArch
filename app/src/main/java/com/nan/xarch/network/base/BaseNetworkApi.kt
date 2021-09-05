@@ -1,8 +1,8 @@
 package com.nan.xarch.network.base
 
 import com.nan.xarch.BuildConfig
-import com.nan.xarch.constant.ErrorCode
 import com.nan.xarch.bean.exception.NetworkException
+import com.nan.xarch.constant.ErrorCode
 import com.nan.xarch.network.interceptor.CommonRequestInterceptor
 import com.nan.xarch.network.interceptor.CommonResponseInterceptor
 import okhttp3.Interceptor
@@ -52,7 +52,7 @@ abstract class BaseNetworkApi<I>(private val baseUrl: String) : IService<I> {
         return null
     }
 
-    protected suspend fun <T> getResult(startUserCenterIfNotLogin: Boolean = false, block: suspend () -> BaseResponse<T>): Result<T> {
+    protected suspend fun <T> getResult(block: suspend () -> BaseResponse<T>): Result<T> {
         for (i in 1..retryCount) {
             try {
                 val response = block()

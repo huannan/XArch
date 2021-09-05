@@ -1,4 +1,4 @@
-package com.nan.xarch.database.dao
+package com.nan.xarch.persistence.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete

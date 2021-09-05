@@ -1,11 +1,11 @@
-package com.nan.xarch.database
+package com.nan.xarch.persistence.database
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.nan.xarch.XArchApplication
 import com.nan.xarch.bean.User
-import com.nan.xarch.database.dao.UserDao
+import com.nan.xarch.persistence.database.dao.UserDao
 
 @Database(entities = [User::class], version = 1)
 abstract class XDatabase : RoomDatabase() {
