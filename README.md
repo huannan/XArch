@@ -1,8 +1,8 @@
-# XArch - 手把手带你搭建Android架构
+# XArch - 手把手带你搭建Android项目架构
 
 ### 前言
 
-最近公司准备上线新项目，由我来负责搭建架构，正好也把之前学的Kotlin等相关知识巩固一下，于是把搭建的成果抽取出来作为开源项目分享给大家。
+最近公司准备上线新项目，由笔者来负责搭建项目架构，正好也把之前学的Kotlin等相关知识巩固一下，于是把搭建的成果抽取出来作为开源项目分享给大家。另外，该项目也是大家学习Kotlin一个很好的示例，另外该项目稍作修改完全可以作为一个新项目的蓝本。
 
 ### 架构总体介绍
 
@@ -16,9 +16,9 @@
 在开始之前，看了公司内部很多项目的架构，大部分都不如人意，诸如以下的问题满天飞：
 
 * 原有API十分难用，比如说添加一个简单的埋点，大部分情况需要去翻看和拷贝已有的代码才能使用
-* Adapter满天飞，列表Item没有复用，本来应该复用的Item写了多次，Adapter也是一个页面写一个，非常难以统一管理
+* Adapter很多很乱，每一个实现都参差不齐，列表Item没有复用，本来应该复用的Item写了多次，Adapter也是一个页面写一个，非常难以统一管理
 * 网络架构十分乱，同一个项目由于历史原因会有多个网络架构；并且API十分难以使用，每次使用还要手动去创建一次Retrofit的Service才能调用API
-* findViewById满天飞，想要修改或者重构代码的时候需要修改大量内容
+* 大量的findViewById，想要修改或者重构代码的时候需要修改大量内容
 * 包管理划分混乱等等
 
 下面是学习该架构可以学习、巩固的知识：
@@ -26,7 +26,7 @@
 * Kotlin各种语法等
 * Jetpack：主要是ViewModel、LifeCycle、LiveData、Room、ViewBinding
 * Kotlin协程
-* 多线程带来的线程同步的处理
+* 思考哪些地方可能会存在多线程带来的线程同步问题以及处理方案
 * Retrofit+OkHttp
 * MultiType
 * MMKV
@@ -48,11 +48,13 @@ util：工具类，包含Kotlin扩展属性、扩展函数
 widget：存放所有自定义控件
 XArchApplication：项目的Application
 
-由于是作为示例项目，就不考虑多module划分的问题了。
+由于是作为示例项目，就暂不考虑多module划分之类的问题了。
 
 ### Gradle配置统一管理
 
-Gradle配置统一管理这一块，笔者写了一个config.gradle脚本：
+搭建一个项目，先从Gradle入手，把所有需要的依赖都依赖进来，为后面的工作打下基础。
+
+对于Gradle配置统一管理这一块，笔者写了一个config.gradle脚本：
 
 ```groovy
 /**
@@ -140,7 +142,7 @@ def readProperty(String fileName, String propertyName, String defaultValue) {
 * build_versions是所有构建相关的版本，比如最小SDK、APP版本号等
 * paths是所有路径常量
 * addRepos是所有仓库地址
-* readLocalProperty和readGradleProperty分别是读取本机的配置和读取常规配置。本机的配置在local.properties，改文件不会提交到Git，所以我直接将其作为本机配置。
+* readLocalProperty和readGradleProperty分别是读取本机的配置和读取常规配置。本机的配置在local.properties，该文件不会提交到Git，所以我直接将其作为本机配置。
 
 然后在项目的根项目里面apply一下，就可以全局使用config.gradle所定义的信息了：
 
@@ -162,9 +164,11 @@ allprojects {
 
 至此，Gradle配置统一管理这一块就实现好了，为后面多module打下坚实的基础。
 
+当然，关于Gradle配置统一管理这一块可以展开的内容实在太多了，针对多module甚至多项目网上也有很多解决方案，这里针对目前的项目需求，采用最简单的方式就好了，此方法适合大部分中小型项目的需要。
+
 ### 基类封装
 
-下面先从最简单的基类的封装入手，直接上代码：
+下面正式开始写代码，先从最简单的基类的封装入手，直接上代码：
 
 ```kotlin
 abstract class BaseActivity : SwipeBackActivity(), IGetPageName {
@@ -213,10 +217,10 @@ abstract class BaseActivity : SwipeBackActivity(), IGetPageName {
 
 提到视图绑定，我们一般会想到以下几个点：
 
-findViewById：重复繁琐，无法规避空指针和强转时类型错误问题(目前通过有泛型可以规避)
-DataBinding：这个是实现MVVM双向绑定的工具，严格来说定位上不属于视图绑定工具，视图绑定只是DataBinding的部分功能
-ButterKnife/Kotlin-Android-Extention：视图绑定工具，目前由于从AGP-5.0版本开始，R类生成的值不再是常量，这两个工具已废弃（参考： https://blog.csdn.net/c10WTiybQ1Ye3/article/details/113695548）
-ViewBinding：视图绑定工具，不用手写findViewById，而且避免了findViewById可能会带来的空指针和强转时类型错误问题(*)
+* findViewById：重复繁琐，无法规避空指针和强转时类型错误问题(目前通过有泛型可以规避)
+* DataBinding：这个是实现MVVM双向绑定的工具，严格来说定位上不属于视图绑定工具，视图绑定只是DataBinding的部分功能
+* ButterKnife/Kotlin-Android-Extention：视图绑定工具，目前由于从AGP-5.0版本开始，R类生成的值不再是常量，这两个工具已废弃（参考： https://blog.csdn.net/c10WTiybQ1Ye3/article/details/113695548）
+* ViewBinding：视图绑定工具，不用手写findViewById，而且避免了findViewById可能会带来的空指针和强转时类型错误问题(*)
 
 基于以上考虑，项目决定采用ViewBinding。
 
@@ -980,8 +984,8 @@ public final class XKeyValue {
 
 文章主要带大家实现了Gradle配置统一管理、基类封装、视图绑定、底部导航栏的实现、事件总线框架封装、列表架构封装、网络架构搭建、持久化，讲的都是笔者在搭建整个架构的核心思路，里面其实还有大量逻辑和细节，可以直接查阅源码：
 
-客户端源码： https://github.com/huannan/XArch
-服务端源码： https://github.com/huannan/XArchServer
+* 客户端源码： https://github.com/huannan/XArch
+* 服务端源码： https://github.com/huannan/XArchServer
 
 一个完整的项目还有诸如下面等大量工作需要实现：
 
