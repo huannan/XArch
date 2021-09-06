@@ -1,7 +1,6 @@
 package com.nan.xarch.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,6 @@ class LoadingView @JvmOverloads constructor(
 
     val viewBinding = ViewLoadingBinding.inflate(LayoutInflater.from(context), this, true).apply {
         viewLoading.setViewColor(resources.getColor(R.color.theme_color))
-        viewLoading.setShadowColor(Color.BLACK)
     }
 
     override fun setVisibility(visibility: Int) {
