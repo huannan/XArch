@@ -75,13 +75,6 @@ abstract class BaseRecyclerViewModel : BaseViewModel() {
     }
 
     /**
-     * 首次加载如果少于pageSize是否继续加载
-     */
-    open fun firstLoadLessContinue(): Boolean {
-        return true
-    }
-
-    /**
      * 提交数据
      */
     protected fun postData(isLoadMore: Boolean, viewData: List<BaseViewData<*>>) {

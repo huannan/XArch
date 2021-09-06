@@ -23,19 +23,11 @@ object XEventBus {
         eventLiveData.postValue(message!!)
     }
 
-    fun <T> observe(owner: LifecycleOwner, @EventName eventName: String, observer: Observer<T>) {
-        with<T>(eventName).observe(owner, observer)
-    }
-
-    fun <T> observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean, observer: Observer<T>) {
+    fun <T> observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
         with<T>(eventName).observe(owner, sticky, observer)
     }
 
-    fun <T> observeForever(@EventName eventName: String, observer: Observer<T>) {
-        with<T>(eventName).observeForever(observer)
-    }
-
-    fun <T> observeForever(@EventName eventName: String, sticky: Boolean, observer: Observer<T>) {
+    fun <T> observeForever(@EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
         with<T>(eventName).observeForever(sticky, observer)
     }
 }
