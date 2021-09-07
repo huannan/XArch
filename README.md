@@ -61,8 +61,8 @@ XArchApplication：项目的Application
  * 依赖库版本管理
  */
 def versions = [:]
-versions.okhttp3 = "4.9.1"
-...省略
+versions.androidx_appcompat = "1.3.1"
+...
 ext.versions = versions
 
 /**
@@ -72,30 +72,42 @@ def build_versions = [:]
 build_versions.min_sdk = 21
 build_versions.target_sdk = 30
 build_versions.compile_sdk = 30
-build_versions.build_tools = "30.0.2"
-build_versions.android_gradle_plugin = "4.2.2"
+build_versions.android_gradle_plugin = "7.0.2"
 build_versions.kotlin = '1.5.30'
 build_versions.app_version_name = "1.0.0"
-build_versions.app_version_code = 1000000
 ext.build_versions = build_versions
 
 /**
  * 路径常量
  */
 def paths = [:]
-paths.room_schema = "$projectDir/schemas".toString()
+paths.room_schema = "$projectDir/schemas"
 ext.paths = paths
 
 /**
  * 仓库地址管理
  */
 def addRepos(RepositoryHandler handler) {
-    handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-    handler.maven { url 'http://maven.aliyun.com/repository/google/' }
-    handler.maven { url 'https://maven.aliyun.com/repository/jcenter/' }
-    handler.maven { url 'https://maven.aliyun.com/repository/public/' }
-    handler.maven { url 'https://jitpack.io' }
-    handler.flatDir { dir new File(rootProject.rootDir, 'third_libs') }
+    handler.maven {
+        allowInsecureProtocol true
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
+    handler.maven {
+        allowInsecureProtocol true
+        url 'http://maven.aliyun.com/repository/google/'
+    }
+    handler.maven {
+        allowInsecureProtocol true
+        url 'https://maven.aliyun.com/repository/jcenter/'
+    }
+    handler.maven {
+        allowInsecureProtocol true
+        url 'https://maven.aliyun.com/repository/public/'
+    }
+    handler.maven {
+        allowInsecureProtocol true
+        url 'https://jitpack.io'
+    }
     handler.mavenCentral()
     handler.google()
 }

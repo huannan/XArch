@@ -5,23 +5,16 @@ plugins {
 }
 
 android {
-    compileSdkVersion build_versions.compile_sdk
-    buildToolsVersion build_versions.build_tools
+    compileSdk build_versions.compile_sdk
 
     defaultConfig {
         applicationId "com.nan.xarch"
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
+        minSdk build_versions.min_sdk
+        targetSdk build_versions.target_sdk
         versionCode build_versions.app_version_code
         versionName build_versions.app_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": paths.room_schema]
-            }
-        }
     }
 
     buildTypes {
@@ -61,6 +54,13 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+}
+
+kapt {
+    generateStubs true
+    arguments {
+        arg("room.schemaLocation", paths.room_schema)
     }
 }
 
