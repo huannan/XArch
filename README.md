@@ -34,7 +34,7 @@
 
 下面先来看一下项目总体的包划分：
 
-![项目总体架构](https://upload-images.jianshu.io/upload_images/2570030-de5aaf553241144f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![项目总体架构](https://upload-images.jianshu.io/upload_images/2570030-8828ae6413acc8a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 base：存放所有业务的基础类，包括BaseActivity、BaseFragment、BaseViewModel、列表等功能的封装
 bean：存放所有Bean类，一般多为Kotlin的data class

@@ -6,6 +6,7 @@ import `in`.srain.cube.views.ptr.PtrUIHandler
 import `in`.srain.cube.views.ptr.indicator.PtrIndicator
 import android.content.Context
 import android.util.AttributeSet
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import com.nan.xarch.R
 import com.nan.xarch.databinding.ViewRecyclerHeaderBinding
@@ -67,6 +68,7 @@ class PullRefreshLayout @JvmOverloads constructor(
         } else if (currentPos > offsetToRefresh && lastPos <= offsetToRefresh) {
             if (isUnderTouch && status == PTR_STATUS_PREPARE) {
                 viewBinding.tvRefreshState.setText(R.string.refresh_release_to_refresh)
+                performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             }
         }
     }
