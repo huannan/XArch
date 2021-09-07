@@ -5,14 +5,14 @@ import com.nan.xarch.bean.exception.NetworkException
 import com.nan.xarch.constant.ErrorCode
 import com.nan.xarch.network.interceptor.CommonRequestInterceptor
 import com.nan.xarch.network.interceptor.CommonResponseInterceptor
+import java.lang.reflect.ParameterizedType
+import java.util.concurrent.TimeUnit
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.reflect.ParameterizedType
-import java.util.concurrent.TimeUnit
 
 /**
  * 网络请求封装
@@ -76,6 +76,7 @@ abstract class BaseNetworkApi<I>(private val baseUrl: String) : IService<I> {
     }
 
     companion object {
+        const val TAG = "BaseNetworkApi"
         private const val retryCount = 2
         private val defaultOkHttpClient by lazy {
             val builder = OkHttpClient.Builder()
