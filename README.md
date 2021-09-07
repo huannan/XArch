@@ -115,37 +115,21 @@ def addRepos(RepositoryHandler handler) {
 ext.addRepos = this.&addRepos
 
 /**
- * 读取本机配置(local.properties不会提交到仓库)
+ * 读取本机配置，主要用于本地差异化构建(local.properties不会提交到仓库)
  */
-def readLocalProperty(String propertyName, String defaultValue) {
-    return readProperty('local.properties', propertyName, defaultValue)
-}
-
-ext.readLocalProperty = this.&readLocalProperty
-
-/**
- * 读取配置(gradle.properties不会提交到仓库)
- */
-def readGradleProperty(String propertyName, String defaultValue) {
-    return readProperty('gradle.properties', propertyName, defaultValue)
-}
-
-ext.readGradleProperty = this.&readGradleProperty
-
-/**
- * 读取配置
- */
-def readProperty(String fileName, String propertyName, String defaultValue) {
-    String result = ""
-    def file = rootProject.file(fileName)
+def readLocalProperty(String key) {
+    boolean value = false
+    def file = rootProject.file('local.properties')
     if (file.exists() && file.isFile()) {
         Properties properties = new Properties()
         properties.load(file.newDataInputStream())
-        result = properties.getProperty(propertyName, defaultValue)
+        value = Boolean.parseBoolean(properties.getProperty(key, 'false'))
     }
-    println("result=" + result)
-    return result
+    println(String.format("property key=%s value=%S", key, value))
+    return value
 }
+
+ext.readLocalProperty = this.&readLocalProperty
 ```
 
 其中，
@@ -154,9 +138,24 @@ def readProperty(String fileName, String propertyName, String defaultValue) {
 * build_versions是所有构建相关的版本，比如最小SDK、APP版本号等
 * paths是所有路径常量
 * addRepos是所有仓库地址
-* readLocalProperty和readGradleProperty分别是读取本机的配置和读取常规配置。本机的配置在local.properties，该文件不会提交到Git，所以我直接将其作为本机配置。
+* readLocalProperty是读取本机的配置，从而做一些差异化配置。
 
-然后在项目的根项目里面apply一下，就可以全局使用config.gradle所定义的信息了：
+这里再解释一下什么是本机配置，本机的配置在local.properties，而该文件不会提交到Git，所以在local.properties配置的属性，只用于改变你本地的构建。比如我要在本地调试的时候使用一个线程排查的工具，但是又不想影响持续集成编译出来的APK包，那么我们可以在local.properties里面增加以下一行：
+
+```properties
+THREAD_POOL_SHRINK=false
+```
+
+然后你可以在build.gradle里面增加以下配置，这样就可以达到只有你自己本机才能开启这个插件，而不会影响持续集成编译出来的APK包。这个是笔者比较常用的一个小技巧。
+
+```groovy
+// 线程池优化Gradle插件，测试稳定后再上线，目前仅用于线程池排查
+if (readLocalProperty("THREAD_POOL_SHRINK")) {
+    apply from: "thread.gradle"
+}
+```
+
+介绍完全局配置脚本config.gradle，接下来在项目的根项目里面apply一下，就可以全局使用config.gradle所定义的信息了：
 
 ```groovy
 buildscript {

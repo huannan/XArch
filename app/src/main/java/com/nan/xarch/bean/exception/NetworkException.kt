@@ -1,6 +1,6 @@
 package com.nan.xarch.bean.exception
 
-class NetworkException private constructor(public val code: Int, message: String) : RuntimeException(message) {
+class NetworkException private constructor(val code: Int, message: String) : RuntimeException(message) {
 
     override fun toString(): String {
         return "exception code is $code msg is $message"

@@ -58,7 +58,6 @@ android {
 }
 
 kapt {
-    generateStubs true
     arguments {
         arg("room.schemaLocation", paths.room_schema)
     }

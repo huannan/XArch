@@ -9,7 +9,6 @@ import android.content.ContextWrapper
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
-import androidx.viewbinding.ViewBinding
 
 /**
  * Boolean转Visibility

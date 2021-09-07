@@ -89,34 +89,18 @@ def addRepos(RepositoryHandler handler) {
 ext.addRepos = this.&addRepos
 
 /**
- * 读取本机配置(local.properties不会提交到仓库)
+ * 读取本机配置，主要用于本地差异化构建(local.properties不会提交到仓库)
  */
-def readLocalProperty(String propertyName, String defaultValue) {
-    return readProperty('local.properties', propertyName, defaultValue)
-}
-
-ext.readLocalProperty = this.&readLocalProperty
-
-/**
- * 读取配置(gradle.properties不会提交到仓库)
- */
-def readGradleProperty(String propertyName, String defaultValue) {
-    return readProperty('gradle.properties', propertyName, defaultValue)
-}
-
-ext.readGradleProperty = this.&readGradleProperty
-
-/**
- * 读取配置
- */
-def readProperty(String fileName, String propertyName, String defaultValue) {
-    String result = ""
-    def file = rootProject.file(fileName)
+def readLocalProperty(String key) {
+    boolean value = false
+    def file = rootProject.file('local.properties')
     if (file.exists() && file.isFile()) {
         Properties properties = new Properties()
         properties.load(file.newDataInputStream())
-        result = properties.getProperty(propertyName, defaultValue)
+        value = Boolean.parseBoolean(properties.getProperty(key, 'false'))
     }
-    println("result=" + result)
-    return result
+    println(String.format("property key=%s value=%S", key, value))
+    return value
 }
+
+ext.readLocalProperty = this.&readLocalProperty
