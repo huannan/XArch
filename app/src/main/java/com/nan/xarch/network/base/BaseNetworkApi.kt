@@ -53,7 +53,7 @@ abstract class BaseNetworkApi<I>(private val baseUrl: String) : IService<I> {
     }
 
     protected suspend fun <T> getResult(block: suspend () -> BaseResponse<T>): Result<T> {
-        for (i in 1..retryCount) {
+        for (i in 1..RETRY_COUNT) {
             try {
                 val response = block()
                 if (response.code != ErrorCode.OK) {
@@ -77,7 +77,7 @@ abstract class BaseNetworkApi<I>(private val baseUrl: String) : IService<I> {
 
     companion object {
         const val TAG = "BaseNetworkApi"
-        private const val retryCount = 2
+        private const val RETRY_COUNT = 2
         private val defaultOkHttpClient by lazy {
             val builder = OkHttpClient.Builder()
                 .callTimeout(10L, TimeUnit.SECONDS)

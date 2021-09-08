@@ -70,11 +70,8 @@ ext.versions = versions
  */
 def build_versions = [:]
 build_versions.min_sdk = 21
-build_versions.target_sdk = 30
-build_versions.compile_sdk = 30
-build_versions.android_gradle_plugin = "7.0.2"
-build_versions.kotlin = '1.5.30'
 build_versions.app_version_name = "1.0.0"
+...
 ext.build_versions = build_versions
 
 /**
@@ -92,24 +89,7 @@ def addRepos(RepositoryHandler handler) {
         allowInsecureProtocol true
         url 'http://maven.aliyun.com/nexus/content/groups/public/'
     }
-    handler.maven {
-        allowInsecureProtocol true
-        url 'http://maven.aliyun.com/repository/google/'
-    }
-    handler.maven {
-        allowInsecureProtocol true
-        url 'https://maven.aliyun.com/repository/jcenter/'
-    }
-    handler.maven {
-        allowInsecureProtocol true
-        url 'https://maven.aliyun.com/repository/public/'
-    }
-    handler.maven {
-        allowInsecureProtocol true
-        url 'https://jitpack.io'
-    }
-    handler.mavenCentral()
-    handler.google()
+    ...
 }
 
 ext.addRepos = this.&addRepos
@@ -467,8 +447,7 @@ class HomeViewModel : BaseRecyclerViewModel() {
             if (!isLoadMore) {
                 viewDataList = listOf<BaseViewData<*>>(
                     Test1ViewData("a-$time"),
-                    Test2ViewData("b-$time"),
-                    Test1ViewData("c-$time"),
+                    ...
                 )
             } else {
                 // 在第5页模拟网络异常
@@ -478,8 +457,7 @@ class HomeViewModel : BaseRecyclerViewModel() {
                 }
                 viewDataList = listOf<BaseViewData<*>>(
                     Test1ViewData("a-$time"),
-                    Test2ViewData("b-$time"),
-                    Test1ViewData("c-$time"),
+                    ...
                 )
             }
             postData(isLoadMore, viewDataList)
@@ -510,9 +488,7 @@ open class BaseAdapter : MultiTypeAdapter() {
 
     init {
         register(LoadMoreViewDelegate())
-        register(Test1ViewDelegate())
-        register(Test2ViewDelegate())
-        register(Test3ViewDelegate())
+        ...
     }
 
     open fun setViewData(viewData: List<BaseViewData<*>>) {
@@ -821,7 +797,17 @@ XRecyclerView是一个自定义的组合控件，通过Config来对外提供配�
 
 ![网络架构](https://upload-images.jianshu.io/upload_images/2570030-e21110512375309f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-我们还是先看一下封装成果：
+我们还是先看一下封装成果。
+
+在网络请求之前，我们先在定义网络接口：
+
+```kotlin
+interface INetworkService {
+
+    @GET("videodetail")
+    suspend fun requestVideoDetail(@Query("id") id: String): BaseResponse<VideoBean>
+}
+```
 
 ```kotlin
 class SmallVideoViewModel : BaseViewModel() {
@@ -842,10 +828,8 @@ class SmallVideoViewModel : BaseViewModel() {
 ```kotlin
 object NetworkApi : BaseNetworkApi<INetworkService>("http://172.16.47.112:8080/XArchServer/") {
 
-    suspend fun requestVideoDetail(id: String): Result<VideoBean> {
-        return getResult() {
-            service.requestVideoDetail(id)
-        }
+    suspend fun requestVideoDetail(id: String) = getResult() {
+        service.requestVideoDetail(id)
     }
 }
 ```
@@ -893,7 +877,7 @@ abstract class BaseNetworkApi<I>(private val baseUrl: String) : IService<I> {
     }
 
     protected suspend fun <T> getResult(block: suspend () -> BaseResponse<T>): Result<T> {
-        for (i in 1..retryCount) {
+        for (i in 1..RETRY_COUNT) {
             try {
                 val response = block()
                 if (response.code != ErrorCode.OK) {
@@ -916,7 +900,7 @@ abstract class BaseNetworkApi<I>(private val baseUrl: String) : IService<I> {
     }
 
     companion object {
-        private const val retryCount = 2
+        private const val RETRY_COUNT = 2
         private val defaultOkHttpClient by lazy {
             val builder = OkHttpClient.Builder()
                 .callTimeout(10L, TimeUnit.SECONDS)

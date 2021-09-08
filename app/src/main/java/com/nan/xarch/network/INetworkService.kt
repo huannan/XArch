@@ -9,5 +9,4 @@ interface INetworkService {
 
     @GET("videodetail")
     suspend fun requestVideoDetail(@Query("id") id: String): BaseResponse<VideoBean>
-
 }
