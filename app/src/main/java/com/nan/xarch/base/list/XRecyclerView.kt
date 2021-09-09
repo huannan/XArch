@@ -75,7 +75,7 @@ class XRecyclerView @JvmOverloads constructor(
 
     private fun initView() {
         // 配置RecyclerView
-        viewBinding.recyclerView.run {
+        viewBinding.loadMoreRecyclerView.run {
             // 滚动条
             isVerticalScrollBarEnabled = config.showScrollBar
             // LayoutManager
@@ -98,7 +98,7 @@ class XRecyclerView @JvmOverloads constructor(
         config.viewModel.firstViewDataLiveData.observe(activity) { viewData ->
             // 刷新数据过程中临时拦截触摸事件
             interceptTouchEventTemporarily()
-            viewBinding.recyclerView.scrollToPosition(0)
+            viewBinding.loadMoreRecyclerView.scrollToPosition(0)
             // 关闭下拉刷新动画
             viewBinding.refreshLayout.run {
                 if (isRefreshing) {
@@ -106,10 +106,10 @@ class XRecyclerView @JvmOverloads constructor(
                     refreshComplete()
                 }
             }
-            viewBinding.recyclerView.resetLoadMoreListener()
+            viewBinding.loadMoreRecyclerView.resetLoadMoreListener()
             if (viewData === LoadError) {
                 // 数据返回错误，有可能是网络异常或者无网络
-                viewBinding.recyclerView.setCanLoadMore(false)
+                viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
                 if (isNetworkConnect()) {
                     showPageState(PageState.LOAD_ERROR)
                 } else {
@@ -117,16 +117,16 @@ class XRecyclerView @JvmOverloads constructor(
                 }
             } else if (viewData.isEmpty()) {
                 // 数据返回空，展示空白页
-                viewBinding.recyclerView.setCanLoadMore(false)
+                viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
                 showPageState(PageState.EMPTY)
             } else {
                 // 有数据返回，设置数据给Adapter
                 config.adapter.setViewData(viewData)
                 if (config.pullUploadMoreEnable) {
-                    viewBinding.recyclerView.setCanLoadMore(true)
+                    viewBinding.loadMoreRecyclerView.setCanLoadMore(true)
                     config.adapter.setLoadMoreState(LoadMoreState.LOADING)
                 } else {
-                    viewBinding.recyclerView.setCanLoadMore(false)
+                    viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
                     config.adapter.setLoadMoreState(LoadMoreState.GONE)
                 }
                 showPageState(PageState.NORMAL)
@@ -150,7 +150,7 @@ class XRecyclerView @JvmOverloads constructor(
             config.viewModel.moreViewDataLiveData.observe(activity) { viewData ->
                 if (viewData === LoadError) {
                     // 数据返回错误，有可能是网络异常或者无网络
-                    viewBinding.recyclerView.setCanLoadMore(false)
+                    viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
                     if (isNetworkConnect()) {
                         config.adapter.setLoadMoreState(LoadMoreState.ERROR)
                     } else {
@@ -158,7 +158,7 @@ class XRecyclerView @JvmOverloads constructor(
                     }
                 } else if (viewData.isEmpty()) {
                     // 数据返回空，展示没有更多
-                    viewBinding.recyclerView.setCanLoadMore(false)
+                    viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
                     if (config.viewModel.getCurrentPage() == 2) {
                         // 如果在第二页加载不到数据，直接隐藏加载控件
                         config.adapter.setLoadMoreState(LoadMoreState.GONE)
@@ -167,12 +167,12 @@ class XRecyclerView @JvmOverloads constructor(
                     }
                 } else {
                     // 数据正常返回，向Adapter添加数据
-                    viewBinding.recyclerView.setCanLoadMore(true)
+                    viewBinding.loadMoreRecyclerView.setCanLoadMore(true)
                     config.adapter.addViewData(viewData)
                 }
             }
             // 上拉加载监听
-            viewBinding.recyclerView.setOnLoadMoreListener(object : LoadMoreRecyclerView.OnLoadMoreListener {
+            viewBinding.loadMoreRecyclerView.setOnLoadMoreListener(object : LoadMoreRecyclerView.OnLoadMoreListener {
                 override fun onLoadMore(page: Int, totalItemsCount: Int) {
                     loadData(isLoadMore = true, isReLoad = false)
                 }
@@ -263,14 +263,14 @@ class XRecyclerView @JvmOverloads constructor(
     fun removeData(position: Int) {
         val removedViewData = config.adapter.removeViewData(position)
         if (null != removedViewData) {
-            config.onItemDeleteListener?.onItemDelete(viewBinding.recyclerView, mutableListOf(removedViewData))
+            config.onItemDeleteListener?.onItemDelete(viewBinding.loadMoreRecyclerView, mutableListOf(removedViewData))
         }
     }
 
     fun removeData(viewData: BaseViewData<*>) {
         val removedViewData = config.adapter.removeViewData(viewData)
         if (null != removedViewData) {
-            config.onItemDeleteListener?.onItemDelete(viewBinding.recyclerView, mutableListOf(removedViewData))
+            config.onItemDeleteListener?.onItemDelete(viewBinding.loadMoreRecyclerView, mutableListOf(removedViewData))
         }
     }
 
@@ -291,7 +291,7 @@ class XRecyclerView @JvmOverloads constructor(
             }
         } else {
             // 普通item点击
-            config.onItemClickListener?.onItemClick(viewBinding.recyclerView, view, viewData, position, id)
+            config.onItemClickListener?.onItemClick(viewBinding.loadMoreRecyclerView, view, viewData, position, id)
         }
     }
 
@@ -299,13 +299,13 @@ class XRecyclerView @JvmOverloads constructor(
         // 长按监听
         var consumed = false
         if (viewData !is LoadMoreViewData) {
-            consumed = config.onItemLongClickListener?.onItemLongClick(viewBinding.recyclerView, view, viewData, position, id) ?: false
+            consumed = config.onItemLongClickListener?.onItemLongClick(viewBinding.loadMoreRecyclerView, view, viewData, position, id) ?: false
         }
         return consumed
     }
 
     fun performItemChildViewClick(view: View, viewData: BaseViewData<*>, position: Int, id: Long, extra: Any?) {
-        config.onItemSubViewClickListener?.onItemChildViewClick(viewBinding.recyclerView, view, viewData, position, id, extra)
+        config.onItemSubViewClickListener?.onItemChildViewClick(viewBinding.loadMoreRecyclerView, view, viewData, position, id, extra)
     }
 
     interface OnItemClickListener {

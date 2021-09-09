@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.nan.xarch.base.list.loadmore.LoadMoreRecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/load_more_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
