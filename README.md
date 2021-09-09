@@ -204,6 +204,8 @@ abstract class BaseActivity : SwipeBackActivity(), IGetPageName {
 
 ![推荐架构](https://upload-images.jianshu.io/upload_images/2570030-54ed5407470d4c91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+本项目省略了Repository层，考虑是中小型示例项目以及大家的学习成本，暂时没有做一层，有需要的话大家可以自己实现。
+
 ### 视图绑定
 
 提到视图绑定，我们一般会想到以下几个点：
@@ -809,6 +811,23 @@ interface INetworkService {
 }
 ```
 
+然后一个网络interface对应创建一个简单的BaseNetworkApi类型的对象，比如NetworkApi：
+
+```kotlin
+object NetworkApi : BaseNetworkApi<INetworkService>("http://172.16.47.112:8080/XArchServer/") {
+
+    suspend fun requestVideoDetail(id: String) = getResult() {
+        service.requestVideoDetail(id)
+    }
+}
+```
+
+在继承并创建BaseNetworkApi对象的时候，我们需要传入baseUrl给BaseNetworkApi的构造行数，泛型参数传入我们刚刚定义好的网络interface。最后对外提供网络API的挂起函数，里面调用service.xxx()函数进行具体的网络请求，而service就是网络interface的具体实现。
+
+另外我们还用getResult包装了一下，目的是做网络错误处理和请求重试，以及将BaseResponse<XXX>转换成带异常信息的Result<XXX>，其中Result这个类是Kotlin给我们提供的一个标准的类。
+
+最后，我们在ViewModel里面开启一个协程，仅仅通过调用NetworkApi的requestXXX方法就可以拿到网络请求结果了：
+
 ```kotlin
 class SmallVideoViewModel : BaseViewModel() {
 
@@ -823,20 +842,11 @@ class SmallVideoViewModel : BaseViewModel() {
 }
 ```
 
-我们在ViewModel里面开启一个协程，仅仅通过调用NetworkApi的requestXXX方法就可以拿到网络请求结果了。而NetworkApi的具体实现如下：
+到这里为止，就是一个最简单的网络请求示例了，记得要先启动服务端的Tomcat才能测试成功，对应的服务端源码在这里（用IDEA打开即可）：https://github.com/huannan/XArchServer
 
-```kotlin
-object NetworkApi : BaseNetworkApi<INetworkService>("http://172.16.47.112:8080/XArchServer/") {
+服务端就是最简单的Java Web项目，封装了最基础的Servlet，以及引入了FastJson，代码都比较简单就不详细解释了，有兴趣的可以看一下。项目架构如下：
 
-    suspend fun requestVideoDetail(id: String) = getResult() {
-        service.requestVideoDetail(id)
-    }
-}
-```
-
-* 直接创建一个NetworkApi对象，泛型参数直接传入你的网络接口定义的Interface，构造方法里面传入baseUrl。
-* 对外提供挂起函数进行网络访问，而service就是Retrofit创建的Interface具体实现。
-* 通过getResult函数负责处理网络异常和重试，里面传入一个高阶挂起函数来请求网络
+![服务端项目架构](https://upload-images.jianshu.io/upload_images/2570030-6ceaf057627b9b57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 下面开始讲解网络框架里面最重要的基类BaseNetworkApi：
 
@@ -986,7 +996,7 @@ public final class XKeyValue {
 
 * 路由管理这一块还没实现
 * 引入DiffUtil
-* 开启多module，将各种业务无关的功能抽取到lib-base模块
-* 等等
+* 启用多module，将各种业务无关的功能抽取到lib-base模块并且解决模块间的通信和路由
+* 完善Repository层等等
 
 这些功能笔者会在后面持续更新，如果觉得这个架构还不错或者有任何问题，可以加笔者微信huannan88，大家一起来讨论。
