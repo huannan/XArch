@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : BaseRecyclerViewModel() {
 
-    override fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int, offset: Int) {
+    override fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int) {
         viewModelScope.launch {
             // 模拟网络数据加载
             delay(1000L)

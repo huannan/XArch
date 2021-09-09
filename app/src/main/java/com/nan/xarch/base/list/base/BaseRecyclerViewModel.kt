@@ -24,19 +24,15 @@ abstract class BaseRecyclerViewModel : BaseViewModel() {
     private var currentPage = AtomicInteger(0)
 
     /**
-     * 游标偏移
-     */
-    private var currentOffset = AtomicInteger(0)
-
-    /**
      * 子类重写这个函数加载数据
      * 数据加载完成后通过postData提交数据
      * 数据加载完成后通过postError提交异常
      *
      * @param isLoadMore 当次是否为加载更多
      * @param isReLoad   当次是否为重新加载(此时page等参数不应该改变)
+     * @param page       页码
      */
-    abstract fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int, offset: Int)
+    abstract fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int)
 
     fun loadDataInternal(isLoadMore: Boolean, isReLoad: Boolean) {
         if (needNetwork() && !isNetworkConnect()) {
@@ -45,19 +41,10 @@ abstract class BaseRecyclerViewModel : BaseViewModel() {
         }
         if (!isLoadMore) {
             currentPage.set(0)
-            currentOffset.set(0)
         } else if (!isReLoad) {
             currentPage.incrementAndGet()
-            currentOffset.addAndGet(getPageSize())
         }
-        loadData(isLoadMore, isReLoad, currentPage.get(), currentOffset.get())
-    }
-
-    /**
-     * 每一页的数据大小，默认为10条
-     */
-    open fun getPageSize(): Int {
-        return 10
+        loadData(isLoadMore, isReLoad, currentPage.get())
     }
 
     /**

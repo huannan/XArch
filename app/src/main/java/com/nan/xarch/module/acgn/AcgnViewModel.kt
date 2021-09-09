@@ -14,7 +14,7 @@ class AcgnViewModel : BaseRecyclerViewModel() {
         return false
     }
 
-    override fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int, offset: Int) {
+    override fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int) {
         viewModelScope.launch {
             // 模拟插入一些数据
             XDatabase.userDao().insert(

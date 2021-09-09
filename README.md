@@ -438,7 +438,7 @@ viewBinding.rvList.init(
 ```kotlin
 class HomeViewModel : BaseRecyclerViewModel() {
 
-    override fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int, offset: Int) {
+    override fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int) {
         viewModelScope.launch {
             // 模拟网络数据加载
             delay(1000L)
@@ -703,10 +703,6 @@ abstract class BaseRecyclerViewModel : BaseViewModel() {
      */
     private var currentPage = AtomicInteger(0)
 
-    /**
-     * 游标偏移
-     */
-    private var currentOffset = AtomicInteger(0)
 
     /**
      * 子类重写这个函数加载数据
@@ -715,8 +711,9 @@ abstract class BaseRecyclerViewModel : BaseViewModel() {
      *
      * @param isLoadMore 当次是否为加载更多
      * @param isReLoad   当次是否为重新加载(此时page等参数不应该改变)
+     * @param page       页码
      */
-    abstract fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int, offset: Int)
+    abstract fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int)
 
     fun loadDataInternal(isLoadMore: Boolean, isReLoad: Boolean) {
         if (needNetwork() && !isNetworkConnect()) {
@@ -725,12 +722,10 @@ abstract class BaseRecyclerViewModel : BaseViewModel() {
         }
         if (!isLoadMore) {
             currentPage.set(0)
-            currentOffset.set(0)
         } else if (!isReLoad) {
             currentPage.incrementAndGet()
-            currentOffset.addAndGet(getPageSize())
         }
-        loadData(isLoadMore, isReLoad, currentPage.get(), currentOffset.get())
+        loadData(isLoadMore, isReLoad, currentPage.get())
     }
 
     /**
