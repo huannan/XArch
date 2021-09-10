@@ -1,4 +1,19 @@
-# XArch - 手把手带你搭建Android项目架构
+本文章已授权微信公众号 guolin_blog （郭霖）独家发布。
+发布地址：[手把手带你搭建一个优秀的Android项目架构](https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650258650&idx=1&sn=ae258f977da27c31c2c0c6a2806438e0&chksm=88634db5bf14c4a3206700ed340c9de58383b4cabd4de060db8a78789e8b3ef0d6031dbb7a99&mpshare=1&scene=1&srcid=0910xjtv2MhEynl3yi9UGJOA&sharer_sharetime=1631236910632&sharer_shareid=8245fe44cd1f6c522efa500f73bf5205&exportkey=AygMNQx3lYnQnyeid0swMNE%3D&pass_ticket=VlfDQiVyltIkpHDrGW04ftXL2hyRdDn5gpggzvZoolXa0PUKHTY6JBJnAx%2BNWKNe&wx_header=0#rd)
+
+### 目录
+
+* 前言
+* 架构总体介绍
+* Gradle配置统一管理
+* 基类封装
+* 视图绑定
+* 底部导航栏的实现
+* 事件总线框架封装
+* 列表架构封装
+* 网络架构搭建
+* 持久化
+* 期望和总结
 
 ### 前言
 
@@ -219,7 +234,11 @@ abstract class BaseActivity : SwipeBackActivity(), IGetPageName {
 
 ### 底部导航栏的实现
 
-底部导航栏的实现我采用FragmentTabHost+Fragment来实现，只不过FragmentTabHost是经过简单修改，防止Fragment在切换过程中Fragment销毁。
+底部导航栏基本上是一个项目的标配了，目前的实现方案有很多，笔者挑选了比较成熟文档且可扩展性强的改造FragmentTabHost方案。
+
+相关文章可以参考：[Android 底部导航栏(底部Tab)最佳实践](https://www.jianshu.com/p/0b9d5777abba)
+
+底部导航栏的实现笔者采用FragmentTabHost+Fragment来实现，只不过FragmentTabHost是经过简单修改，防止Fragment在切换过程中Fragment销毁。
 
 示例代码参考MainActivity.kt：
 
@@ -811,7 +830,7 @@ interface INetworkService {
 ```kotlin
 object NetworkApi : BaseNetworkApi<INetworkService>("http://172.16.47.112:8080/XArchServer/") {
 
-    suspend fun requestVideoDetail(id: String) = getResult() {
+    suspend fun requestVideoDetail(id: String) = getResult {
         service.requestVideoDetail(id)
     }
 }
