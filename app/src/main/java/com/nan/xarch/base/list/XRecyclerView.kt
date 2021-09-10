@@ -103,7 +103,6 @@ class XRecyclerView @JvmOverloads constructor(
             viewBinding.refreshLayout.run {
                 if (isRefreshing) {
                     refreshComplete()
-                    refreshComplete()
                 }
             }
             viewBinding.loadMoreRecyclerView.resetLoadMoreListener()

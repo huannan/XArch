@@ -991,7 +991,7 @@ public final class XKeyValue {
 
 * 路由管理这一块还没实现
 * 引入DiffUtil
-* 启用多module，将各种业务无关的功能抽取到lib-base模块并且解决模块间的通信和路由
+* 组件化改造，将各种业务无关的功能抽取到lib-base模块并且解决模块间的通信和路由
 * 完善Repository层等等
 
 这些功能笔者会在后面持续更新，如果觉得这个架构还不错或者有任何问题，可以加笔者微信huannan88，大家一起来讨论。
