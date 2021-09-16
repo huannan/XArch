@@ -2,10 +2,10 @@ package com.nan.xarch.constant
 
 import androidx.annotation.StringDef
 
-@StringDef(MMKVKey.TEST)
+@StringDef(Key.XXX)
 @Retention(AnnotationRetention.SOURCE)
-annotation class MMKVKey {
+annotation class Key {
     companion object {
-        const val TEST = "test"
+        const val XXX = "xxx"
     }
 }

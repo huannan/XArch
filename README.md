@@ -990,7 +990,39 @@ interface UserDao {
 ```
 
 ```kotlin
-public final class XKeyValue {
+/**
+ * 本类为MMKV的封装类，防止代码入侵
+ */
+object XKeyValue {
+
+    fun init(application: Application) {
+        MMKV.initialize(application)
+    }
+
+    fun putBoolean(@Key key: String, value: Boolean) {
+        MMKV.defaultMMKV().encode(key, value)
+    }
+
+    fun getBoolean(@Key key: String, defaultValue: Boolean = false): Boolean {
+        return MMKV.defaultMMKV().decodeBool(key, defaultValue)
+    }
+
+    fun putString(@Key key: String, value: String) {
+        MMKV.defaultMMKV().encode(key, value)
+    }
+
+    fun getString(@Key key: String, defaultValue: String = ""): String {
+        return MMKV.defaultMMKV().decodeString(key, defaultValue)!!
+    }
+
+    fun putInt(@Key key: String, value: Int) {
+        MMKV.defaultMMKV().encode(key, value)
+    }
+
+    fun getInt(@Key key: String, defaultValue: Int = 0): Int {
+        return MMKV.defaultMMKV().decodeInt(key, defaultValue)
+    }
+
     ...
 }
 ```
