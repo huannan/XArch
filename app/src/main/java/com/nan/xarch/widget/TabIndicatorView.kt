@@ -12,5 +12,4 @@ class TabIndicatorView @JvmOverloads constructor(
 
     val viewBinding = ViewTabIndicatorBinding.inflate(LayoutInflater.from(context), this, true)
 
-
 }
