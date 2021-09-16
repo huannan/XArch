@@ -10,7 +10,7 @@ import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import com.nan.xarch.R
 import com.nan.xarch.databinding.ViewRecyclerHeaderBinding
-import com.nan.xarch.util.Logger
+import com.nan.xarch.util.d
 
 class PullRefreshLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -38,21 +38,21 @@ class PullRefreshLayout @JvmOverloads constructor(
     }
 
     override fun onUIReset(layout: PtrFrameLayout) {
-        Logger.d(TAG, "onUIReset")
+        d(TAG, "onUIReset")
     }
 
     override fun onUIRefreshPrepare(layout: PtrFrameLayout) {
-        Logger.d(TAG, "onUIRefreshPrepare")
+        d(TAG, "onUIRefreshPrepare")
         viewBinding.tvRefreshState.setText(R.string.refresh_pull_down_to_refresh)
     }
 
     override fun onUIRefreshBegin(layout: PtrFrameLayout) {
-        Logger.d(TAG, "onUIRefreshBegin")
+        d(TAG, "onUIRefreshBegin")
         viewBinding.tvRefreshState.setText(R.string.refresh_refreshing)
     }
 
     override fun onUIRefreshComplete(layout: PtrFrameLayout) {
-        Logger.d(TAG, "onUIRefreshComplete")
+        d(TAG, "onUIRefreshComplete")
         viewBinding.tvRefreshState.setText(R.string.refresh_refresh_complete)
     }
 
