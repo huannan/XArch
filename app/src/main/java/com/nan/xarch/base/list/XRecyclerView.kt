@@ -158,7 +158,7 @@ class XRecyclerView @JvmOverloads constructor(
                 } else if (viewData.isEmpty()) {
                     // 数据返回空，展示没有更多
                     viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
-                    if (config.viewModel.getCurrentPage() == 2) {
+                    if (config.viewModel.getCurrentPage() == 1) {
                         // 如果在第二页加载不到数据，直接隐藏加载控件
                         config.adapter.setLoadMoreState(LoadMoreState.GONE)
                     } else {
