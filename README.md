@@ -295,7 +295,7 @@ private fun setCurrentTab(@TabId tabID: String) {
 * RXJava
 * LiveData
 
-既然上了Jetpack这条贼船，我们就用LiveDataa来实现一个简单可用的事件总线框架。惯例先来看看成果：
+既然上了Jetpack这条贼船，我们就用LiveData来实现一个简单可用的事件总线框架。惯例先来看看成果：
 
 在任何地方通过XEventBus的post方法发送一个事件：
 ```kotlin
@@ -311,15 +311,15 @@ XEventBus.observe(viewLifecycleOwner, EventName.REFRESH_HOME_LIST) { message: St
 
 总体类预览如下：
 
-![事件总线架构](https://upload-images.jianshu.io/upload_images/2570030-fe4a37a3ab3373bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![事件总线架构](https://upload-images.jianshu.io/upload_images/2570030-a201de8609c3b71c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-一个三个类搞定，下面开始讲解实现原理。
+一共几个类搞定，下面开始讲解实现原理。
 
 熟悉LiveData的朋友都知道，LiveData在添加新的Observer的时候是会收到最后一条消息，实质上是一种粘性订阅，如果不需要粘性订阅，那么就需要对Observer进行改造了：
 
 ```kotlin
 class EventObserverWrapper<T>(
-    liveData: LiveData<T>,
+    liveData: EventLiveData<T>,
     sticky: Boolean,
     private val observerDelegate: Observer<in T>
 ) : Observer<T> {
@@ -351,17 +351,13 @@ class EventObserverWrapper<T>(
 
 其中LiveData的mVersion需要通过反射来获取。
 
-接下来我们封装一个EventLiveData，添加在订阅的时候，增加了一个sticky参数，把传进来的Observer由我们的EventObserverWrapper包装一下：
+接下来我们封装一个EventLiveData，添加在订阅的时候，增加了一个sticky参数，把传进来的Observer用EventObserverWrapper包装一下：
 
 ```kotlin
 class EventLiveData<T> : MutableLiveData<T>() {
 
     fun observe(owner: LifecycleOwner, sticky: Boolean, observer: Observer<in T>) {
         observe(owner, wrapObserver(sticky, observer))
-    }
-
-    fun observeForever(sticky: Boolean, observer: Observer<in T>) {
-        observeForever(wrapObserver(sticky, observer))
     }
 
     private fun wrapObserver(sticky: Boolean, observer: Observer<in T>): Observer<T> {
@@ -394,20 +390,50 @@ object XEventBus {
     fun <T> observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
         with<T>(eventName).observe(owner, sticky, observer)
     }
-
-    fun <T> observeForever(@EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
-        with<T>(eventName).observeForever(sticky, observer)
-    }
 }
 ```
 
 在这个XEventBus对象里面，channels存储了所有EventLiveData，通过with函数就可以根据eventName获取一个EventLiveData，这里需要注意多线程访问HashMap的问题。
 
-我们还对外提供了post、observe/observeForever三个函数：
+我们还对外提供了post、observe两个函数：
 
 * post用于发送事件，需要传入事件名和具体的消息，最终调用LiveData的postValue方法
-* observe/observeForever用于订阅事件，需要传入事件名和Observer，最终调用LiveData的observe/observeForever方法
+* observe用于订阅事件，需要传入事件名和Observer，最终调用LiveData的observe方法
 
+通过LiveData封装事件总线，我们省去了手动取消订阅的操作，但是还有一个比较麻烦的事件还没解决，就是通过observe而不是observeForever来订阅，只能在LifecycleOwner活跃的情况下才能收到消息，例如给一个已经pause的Activity发送一个事件，只能在返回这个Activity的时候才能收到消息。
+
+类似这种“给一个已经pause的Activity/Fragment发送一个事件”这种情况，其实在实际应用中是非常常见的，其实我们完全可以通过observeForever来订阅，但是这种订阅需要手动取消订阅，会带来API使用的不便利。为了能够利用observe这种自动取消订阅的便利性，又能够在pause状态下收到事件，笔者决定自己移植LiveData的源码来达到这个效果。
+
+把LiveData包里面的几个类拷贝到自己的项目下面，修改触发事件回调的considerNotify方法，去掉判断Observer是否活跃的逻辑就可以了：
+
+```java
+private void considerNotify(ObserverWrapper observer) {
+    /* 修改源码，实现后台收消息功能
+    if (!observer.mActive) {
+        return;
+    }
+    // Check latest state b4 dispatch. Maybe it changed state but we didn't get the event yet.
+    //
+    // we still first check observer.active to keep it as the entrance for events. So even if
+    // the observer moved to an active state, if we've not received that event, we better not
+    // notify for a more predictable notification order.
+    if (!observer.shouldBeActive()) {
+        observer.activeStateChanged(false);
+        return;
+    }
+    */
+
+    if (observer.mLastVersion >= mVersion) {
+        return;
+    }
+    observer.mLastVersion = mVersion;
+    observer.mObserver.onChanged((T) mData);
+}
+```
+
+对于没有LifecycleOwner的场景，需要自己实现LifecycleOwner即可，大部分情况下通过Activity/Fragment都是可以直接获取LifecycleOwner的。
+
+至此，事件总线架构的封装就完成了。
 
 ### 列表架构封装
 
