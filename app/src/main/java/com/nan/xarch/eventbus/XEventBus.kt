@@ -26,8 +26,4 @@ object XEventBus {
     fun <T> observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
         with<T>(eventName).observe(owner, sticky, observer)
     }
-
-    fun <T> observeForever(@EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
-        with<T>(eventName).observeForever(sticky, observer)
-    }
 }

@@ -51,6 +51,10 @@ class HomeFragment : BaseFragment() {
             viewBinding.rvList.refreshList()
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
+
+        XEventBus.observe(viewLifecycleOwner, EventName.TEST) { message: String ->
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     @PageName
