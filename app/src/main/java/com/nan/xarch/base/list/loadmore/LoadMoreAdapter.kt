@@ -20,6 +20,13 @@ class LoadMoreAdapter : BaseAdapter() {
         super.setViewData(mutableViewData)
     }
 
+    override fun replaceViewData(viewData: BaseViewData<*>, position: Int) {
+        if (position in 0 until itemCount - 1) {
+            items[position] = viewData
+            notifyItemChanged(position)
+        }
+    }
+
     override fun addViewData(viewData: BaseViewData<*>) {
         val position = itemCount - 1
         items.add(position, viewData)

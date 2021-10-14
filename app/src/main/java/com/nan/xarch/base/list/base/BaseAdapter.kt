@@ -21,6 +21,13 @@ open class BaseAdapter : MultiTypeAdapter() {
         notifyDataSetChanged()
     }
 
+    open fun replaceViewData(viewData: BaseViewData<*>, position: Int) {
+        if (position in 0 until itemCount) {
+            items[position] = viewData
+            notifyItemChanged(position)
+        }
+    }
+
     open fun addViewData(viewData: BaseViewData<*>) {
         val oldSize = itemCount
         items.add(viewData)
