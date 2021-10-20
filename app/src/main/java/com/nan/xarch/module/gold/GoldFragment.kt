@@ -1,9 +1,7 @@
 package com.nan.xarch.module.gold
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.nan.xarch.base.BaseFragment
 import com.nan.xarch.constant.EventName
@@ -14,15 +12,13 @@ import com.nan.xarch.eventbus.XEventBus
 /**
  * 领现金
  */
-class GoldFragment : BaseFragment() {
+class GoldFragment : BaseFragment<FragmentGoldBinding>(FragmentGoldBinding::inflate) {
 
     private val viewModel: GoldViewModel by viewModels()
-    private lateinit var viewBinding: FragmentGoldBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        viewBinding = FragmentGoldBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
-        return viewBinding.root
     }
 
     private fun initView() {

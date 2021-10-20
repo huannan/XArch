@@ -1,9 +1,7 @@
 package com.nan.xarch.module.smallvideo
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.nan.xarch.R
 import com.nan.xarch.base.BaseFragment
@@ -13,15 +11,13 @@ import com.nan.xarch.databinding.FragmentSmallVideoBinding
 /**
  * 小视频
  */
-class SmallVideoFragment : BaseFragment() {
+class SmallVideoFragment : BaseFragment<FragmentSmallVideoBinding>(FragmentSmallVideoBinding::inflate) {
 
     private val viewModel: SmallVideoViewModel by viewModels()
-    private lateinit var viewBinding: FragmentSmallVideoBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        viewBinding = FragmentSmallVideoBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
-        return viewBinding.root
     }
 
     private fun initView() {

@@ -1,6 +1,8 @@
 package com.nan.xarch.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.viewbinding.ViewBinding
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity
@@ -8,12 +10,15 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity
 /**
  * Activity基类
  */
-abstract class BaseActivity : SwipeBackActivity(), IGetPageName {
+abstract class BaseActivity<T : ViewBinding>(val inflater: (inflater: LayoutInflater) -> T) : SwipeBackActivity(), IGetPageName {
 
+    protected lateinit var viewBinding: T
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = inflater(layoutInflater)
+        setContentView(viewBinding.root)
         setSwipeBackEnable(swipeBackEnable())
     }
 

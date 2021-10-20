@@ -1,19 +1,30 @@
 package com.nan.xarch.base
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 /**
  * Fragment基类
  */
-abstract class BaseFragment : Fragment(), IGetPageName {
+abstract class BaseFragment<T : ViewBinding>(val inflater: (inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> T) : Fragment(), IGetPageName {
 
+    protected lateinit var viewBinding: T
     private val compositeDisposable = CompositeDisposable()
 
-    override fun onDestroy() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewBinding = this.inflater(inflater, container, false)
+        return viewBinding.root
+    }
+
+    override fun onDestroyView() {
         compositeDisposable.dispose()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     /**
@@ -22,5 +33,4 @@ abstract class BaseFragment : Fragment(), IGetPageName {
     protected fun addDisposable(disposable: Disposable) {
         compositeDisposable.add(disposable)
     }
-
 }

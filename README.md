@@ -232,6 +232,53 @@ abstract class BaseActivity : SwipeBackActivity(), IGetPageName {
 
 基于以上考虑，项目决定采用ViewBinding。
 
+以下是在BaseActivity和BaseFragment中对ViewBinding的封装：
+
+```kotlin
+/**
+ * Activity基类
+ */
+abstract class BaseActivity<T : ViewBinding>(val inflater: (inflater: LayoutInflater) -> T) : SwipeBackActivity() {
+
+    protected lateinit var viewBinding: T
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewBinding = inflater(layoutInflater)
+        setContentView(viewBinding.root)
+    }
+}
+
+/**
+ * Fragment基类
+ */
+abstract class BaseFragment<T : ViewBinding>(val inflater: (inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> T) : Fragment() {
+
+    protected lateinit var viewBinding: T
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewBinding = this.inflater(inflater, container, false)
+        return viewBinding.root
+    }
+}
+```
+
+我们定义了一个泛型参数，并定义一个子类可以访问的成员，然后在主构造函数里面添加了ViewBinding初始化的高阶函数，并且在对应的onCreate/onCreateView里面调用这个高阶函数初始化ViewBinding，在继承Base类的时候，只需要简单传入XXXViewBinding::inflate即可，以MainActivity为例子：
+
+```kotlin
+/**
+ * 首页
+ */
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // 可以直接使用viewBinding了
+        viewBinding.xxx
+    }
+}
+```
+
 ### 底部导航栏的实现
 
 底部导航栏基本上是一个项目的标配了，目前的实现方案有很多，笔者挑选了比较成熟文档且可扩展性强的改造FragmentTabHost方案。

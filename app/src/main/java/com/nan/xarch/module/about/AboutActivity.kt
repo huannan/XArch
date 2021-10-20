@@ -7,14 +7,10 @@ import com.nan.xarch.constant.PageName
 import com.nan.xarch.databinding.ActivityAboutBinding
 import com.nan.xarch.eventbus.XEventBus
 
-class AboutActivity : BaseActivity() {
-
-    private lateinit var viewBinding: ActivityAboutBinding
+class AboutActivity : BaseActivity<ActivityAboutBinding>(ActivityAboutBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityAboutBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
         initView()
     }
 
@@ -26,5 +22,4 @@ class AboutActivity : BaseActivity() {
 
     @PageName
     override fun getPageName() = PageName.ABOUT
-
 }

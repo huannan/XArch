@@ -20,10 +20,9 @@ import com.nan.xarch.widget.TabIndicatorView
 /**
  * 首页
  */
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var viewBinding: ActivityMainBinding
 
     // 当前选中的底栏ID
     @TabId
@@ -31,9 +30,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
-
         initSystemBar()
         updateTitle()
         initTabs()
