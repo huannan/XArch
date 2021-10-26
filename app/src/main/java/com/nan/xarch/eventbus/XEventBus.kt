@@ -3,6 +3,7 @@ package com.nan.xarch.eventbus
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.nan.xarch.constant.EventName
+import com.nan.xarch.eventbus.core.EmptyMessage
 import com.nan.xarch.eventbus.core.EventLiveData
 
 object XEventBus {
@@ -25,5 +26,16 @@ object XEventBus {
 
     fun <T> observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
         with<T>(eventName).observe(owner, sticky, observer)
+    }
+
+    fun post(@EventName eventName: String) {
+        val eventLiveData = with<EmptyMessage>(eventName)
+        eventLiveData.postValue(EmptyMessage)
+    }
+
+    fun observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean = false, observer: () -> Unit) {
+        with<EmptyMessage>(eventName).observe(owner, sticky) {
+            observer()
+        }
     }
 }
