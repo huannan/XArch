@@ -20,21 +20,23 @@ object XEventBus {
     }
 
     fun <T> post(@EventName eventName: String, message: T) {
-        val eventLiveData = with<T>(eventName)
-        eventLiveData.postValue(message!!)
+        val channel = with<T>(eventName)
+        channel.postValue(message!!)
     }
 
     fun <T> observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean = false, observer: Observer<T>) {
-        with<T>(eventName).observe(owner, sticky, observer)
+        val channel = with<T>(eventName)
+        channel.observe(owner, sticky, observer)
     }
 
     fun post(@EventName eventName: String) {
-        val eventLiveData = with<EmptyMessage>(eventName)
-        eventLiveData.postValue(EmptyMessage)
+        val channel = with<EmptyMessage>(eventName)
+        channel.postValue(EmptyMessage)
     }
 
     fun observe(owner: LifecycleOwner, @EventName eventName: String, sticky: Boolean = false, observer: () -> Unit) {
-        with<EmptyMessage>(eventName).observe(owner, sticky) {
+        val channel = with<EmptyMessage>(eventName)
+        channel.observe(owner, sticky) {
             observer()
         }
     }

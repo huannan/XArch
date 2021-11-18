@@ -24,24 +24,22 @@ class AcgnFragment : BaseFragment<FragmentAcgnBinding>(FragmentAcgnBinding::infl
     }
 
     private fun initView() {
-        viewBinding.rvList.init(
-            XRecyclerView.Config()
-                .setViewModel(viewModel)
-                .setPullRefreshEnable(false)
-                .setPullUploadMoreEnable(false)
-                .setOnItemClickListener(object : XRecyclerView.OnItemClickListener {
-                    override fun onItemClick(parent: RecyclerView, view: View, viewData: BaseViewData<*>, position: Int, id: Long) {
-                        Toast.makeText(context, "条目点击: ${viewData.value}", Toast.LENGTH_SHORT).show()
+        viewBinding.rvList.init(XRecyclerView.Config()
+            .setViewModel(viewModel)
+            .setPullRefreshEnable(false)
+            .setPullUploadMoreEnable(false)
+            .setOnItemClickListener(object : XRecyclerView.OnItemClickListener {
+                override fun onItemClick(parent: RecyclerView, view: View, viewData: BaseViewData<*>, position: Int, id: Long) {
+                    Toast.makeText(context, "条目点击: ${viewData.value}", Toast.LENGTH_SHORT).show()
+                }
+            })
+            .setOnItemChildViewClickListener(object : XRecyclerView.OnItemChildViewClickListener {
+                override fun onItemChildViewClick(parent: RecyclerView, view: View, viewData: BaseViewData<*>, position: Int, id: Long, extra: Any?) {
+                    if (extra is String) {
+                        Toast.makeText(context, "条目子View点击: $extra", Toast.LENGTH_SHORT).show()
                     }
-                })
-                .setOnItemChildViewClickListener(object : XRecyclerView.OnItemChildViewClickListener {
-                    override fun onItemChildViewClick(parent: RecyclerView, view: View, viewData: BaseViewData<*>, position: Int, id: Long, extra: Any?) {
-                        if (extra is String) {
-                            Toast.makeText(context, "条目子View点击: $extra", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                })
-        )
+                }
+            }))
     }
 
     @PageName

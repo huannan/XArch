@@ -17,6 +17,7 @@
 package com.nan.xarch.eventbus.core;
 
 /**
+ * 自定义MutableLiveData，解决后台界面无法收到消息的问题
  * {@link LiveData} which publicly exposes {@link #setValue(T)} and {@link #postValue(T)} method.
  *
  * @param <T> The type of data hold by this instance

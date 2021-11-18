@@ -21,6 +21,7 @@
         android:theme="@style/Theme.XArch"
         tools:replace="android:allowBackup,android:networkSecurityConfig,android:supportsRtl"
         tools:targetApi="n">
+
         <activity
             android:name=".module.main.MainActivity"
             android:screenOrientation="portrait"
@@ -35,7 +36,8 @@
         <activity
             android:name=".module.about.AboutActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBarActivityTheme" />
+            android:theme="@style/ActivityTheme" />
+
     </application>
 
 </manifest>

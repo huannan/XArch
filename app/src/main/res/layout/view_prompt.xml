@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_error"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="86dp"
+        android:src="@drawable/icon_no_network"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/page_state_no_network"
+        android:textColor="#40000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_error" />
+
+    <TextView
+        android:id="@+id/btn_action"
+        android:layout_width="93dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="31dp"
+        android:background="@drawable/bg_error_action"
+        android:gravity="center"
+        android:text="@string/action_set_network"
+        android:textColor="#FFEB5F52"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_error" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/view_loading"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tv_loading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:lottie_rawRes="@raw/loop_yellow" />
+
+    <TextView
+        android:id="@+id/tv_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/page_state_loading"
+        android:textColor="#40000000"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_loading" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

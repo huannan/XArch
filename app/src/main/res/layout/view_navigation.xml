@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-medium"
+        android:text="@string/page_home"
         android:textColor="@color/black_90_color"
         android:textSize="19dp"
         app:layout_constraintBottom_toBottomOf="parent"

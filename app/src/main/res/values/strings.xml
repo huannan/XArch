@@ -5,10 +5,12 @@
     <string name="page_acgn">二次元</string>
     <string name="page_gold">领福利</string>
     <string name="page_mine">我的</string>
+    <string name="page_about">关于</string>
 
     <string name="page_state_no_network">无网络连接，请检查网络设置</string>
     <string name="page_state_network_error">出了点意外，内容加载失败</string>
     <string name="page_state_empty">这里是空的哦</string>
+    <string name="page_state_loading">正在加载</string>
     <string name="action_set_network">设置网络</string>
     <string name="action_retry">重新加载</string>
 

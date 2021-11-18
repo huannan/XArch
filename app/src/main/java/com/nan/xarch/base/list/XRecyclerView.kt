@@ -1,9 +1,6 @@
 package com.nan.xarch.base.list
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkRequest
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
@@ -13,7 +10,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnClickListener
 import androidx.annotation.DrawableRes
-import androidx.annotation.IntDef
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,10 +23,10 @@ import com.nan.xarch.base.list.pullrefresh.PullRefreshLayout
 import com.nan.xarch.bean.LoadError
 import com.nan.xarch.bean.exception.GlobalException
 import com.nan.xarch.constant.LoadMoreState
+import com.nan.xarch.constant.PageState
 import com.nan.xarch.databinding.ViewXRecyclerBinding
 import com.nan.xarch.item.LoadMoreViewData
-import com.nan.xarch.util.isNetworkConnect
-import com.nan.xarch.util.toNetworkSetting
+import com.nan.xarch.util.NetworkHelper
 
 class XRecyclerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -49,8 +45,7 @@ class XRecyclerView @JvmOverloads constructor(
     private val showLoadingRunnable by lazy {
         Runnable {
             viewBinding.refreshLayout.visibility = View.GONE
-            viewBinding.loadingView.visibility = View.VISIBLE
-            viewBinding.errorView.visibility = View.GONE
+            viewBinding.promptView.showLoading()
         }
     }
     private var interceptTouchEvent = false
@@ -58,8 +53,8 @@ class XRecyclerView @JvmOverloads constructor(
         Runnable {
             interceptTouchEvent = false
         }
+
     }
-    private val networkCallback = NetworkCallback()
 
     companion object {
         const val DELAY_SHOW_LOADING = 500L
@@ -109,7 +104,7 @@ class XRecyclerView @JvmOverloads constructor(
             if (viewData === LoadError) {
                 // 数据返回错误，有可能是网络异常或者无网络
                 viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
-                if (isNetworkConnect()) {
+                if (NetworkHelper.isNetworkConnect()) {
                     showPageState(PageState.LOAD_ERROR)
                 } else {
                     showPageState(PageState.NO_NETWORK)
@@ -150,7 +145,7 @@ class XRecyclerView @JvmOverloads constructor(
                 if (viewData === LoadError) {
                     // 数据返回错误，有可能是网络异常或者无网络
                     viewBinding.loadMoreRecyclerView.setCanLoadMore(false)
-                    if (isNetworkConnect()) {
+                    if (NetworkHelper.isNetworkConnect()) {
                         config.adapter.setLoadMoreState(LoadMoreState.ERROR)
                     } else {
                         config.adapter.setLoadMoreState(LoadMoreState.NO_NETWORK)
@@ -167,7 +162,9 @@ class XRecyclerView @JvmOverloads constructor(
                 } else {
                     // 数据正常返回，向Adapter添加数据
                     viewBinding.loadMoreRecyclerView.setCanLoadMore(true)
+                    config.adapter.setLoadMoreState(LoadMoreState.GONE)
                     config.adapter.addViewData(viewData)
+                    config.adapter.setLoadMoreState(LoadMoreState.LOADING)
                 }
             }
             // 上拉加载监听
@@ -179,7 +176,27 @@ class XRecyclerView @JvmOverloads constructor(
         }
 
         // 网络状态监听
-        (activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).requestNetwork(NetworkRequest.Builder().build(), networkCallback)
+        NetworkHelper.observerNetworkState(activity) { connect: Boolean ->
+            if (!isAttachedToWindow || !config.viewModel.needNetwork()) {
+                return@observerNetworkState
+            }
+            if (connect) {
+                // 网络重新连接上，根据当前页面状态重新加载数据
+                if (currentPageState == PageState.LOAD_ERROR || currentPageState == PageState.NO_NETWORK) {
+                    loadData(isLoadMore = false, isReLoad = true, showLoading = true)
+                } else if (currentPageState == PageState.NORMAL && (config.adapter.getLoadMoreState() == LoadMoreState.ERROR || config.adapter.getLoadMoreState() == LoadMoreState.NO_NETWORK)) {
+                    config.adapter.setLoadMoreState(LoadMoreState.LOADING)
+                    loadData(isLoadMore = true, isReLoad = true, showLoading = false)
+                }
+            } else {
+                // 网络丢失，根据当前页面状态展示无网络
+                if (currentPageState == PageState.LOAD_ERROR || currentPageState == PageState.LOADING) {
+                    showPageState(PageState.NO_NETWORK)
+                } else if (currentPageState == PageState.NORMAL && config.adapter.getLoadMoreState() == LoadMoreState.ERROR) {
+                    config.adapter.setLoadMoreState(LoadMoreState.NO_NETWORK)
+                }
+            }
+        }
 
         // 开始加载数据
         loadData(isLoadMore = false, isReLoad = false, showLoading = true)
@@ -198,8 +215,6 @@ class XRecyclerView @JvmOverloads constructor(
     }
 
     override fun onDetachedFromWindow() {
-        // 注销网络状态监听
-        (activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).unregisterNetworkCallback(networkCallback)
         mainHandler.removeCallbacksAndMessages(null)
         super.onDetachedFromWindow()
     }
@@ -210,8 +225,7 @@ class XRecyclerView @JvmOverloads constructor(
         when (currentPageState) {
             PageState.NORMAL -> {
                 viewBinding.refreshLayout.visibility = View.VISIBLE
-                viewBinding.loadingView.visibility = View.GONE
-                viewBinding.errorView.visibility = View.GONE
+                viewBinding.promptView.hide()
             }
             PageState.LOADING -> {
                 // 正在加载延迟500毫秒显示
@@ -219,21 +233,15 @@ class XRecyclerView @JvmOverloads constructor(
             }
             PageState.LOAD_ERROR -> {
                 viewBinding.refreshLayout.visibility = View.GONE
-                viewBinding.loadingView.visibility = View.GONE
-                viewBinding.errorView.visibility = View.VISIBLE
-                viewBinding.errorView.showNetworkError(retryOnClickListener)
+                viewBinding.promptView.showNetworkError(retryOnClickListener)
             }
             PageState.NO_NETWORK -> {
                 viewBinding.refreshLayout.visibility = View.GONE
-                viewBinding.loadingView.visibility = View.GONE
-                viewBinding.errorView.visibility = View.VISIBLE
-                viewBinding.errorView.showNoNetwork()
+                viewBinding.promptView.showNoNetwork()
             }
             PageState.EMPTY -> {
                 viewBinding.refreshLayout.visibility = View.GONE
-                viewBinding.loadingView.visibility = View.GONE
-                viewBinding.errorView.visibility = View.VISIBLE
-                viewBinding.errorView.showEmpty(config.emptyIcon, config.emptyMessage)
+                viewBinding.promptView.showEmpty(config.emptyIcon, config.emptyMessage)
             }
         }
     }
@@ -285,7 +293,7 @@ class XRecyclerView @JvmOverloads constructor(
                 }
                 LoadMoreState.NO_NETWORK -> {
                     // 跳转到网络设置页面
-                    toNetworkSetting(context)
+                    NetworkHelper.toNetworkSetting(context)
                 }
             }
         } else {
@@ -321,55 +329,6 @@ class XRecyclerView @JvmOverloads constructor(
 
     interface OnItemDeleteListener {
         fun onItemDelete(parent: RecyclerView, viewData: List<BaseViewData<*>>)
-    }
-
-    @IntDef(PageState.NORMAL, PageState.LOADING, PageState.LOAD_ERROR, PageState.NO_NETWORK, PageState.EMPTY)
-    @Retention(AnnotationRetention.SOURCE)
-    annotation class PageState {
-        companion object {
-            const val NORMAL = 0
-            const val LOADING = 1
-            const val LOAD_ERROR = 2
-            const val NO_NETWORK = 3
-            const val EMPTY = 4
-        }
-    }
-
-    private inner class NetworkCallback : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            mainHandler.post {
-                if (isAttachedToWindow) {
-                    if (!config.viewModel.needNetwork()) {
-                        return@post
-                    }
-                    // 网络重新连接上，根据当前页面状态重新加载数据
-                    if (currentPageState == PageState.LOAD_ERROR || currentPageState == PageState.NO_NETWORK) {
-                        loadData(isLoadMore = false, isReLoad = true, showLoading = true)
-                    } else if (currentPageState == PageState.NORMAL && (config.adapter.getLoadMoreState() == LoadMoreState.ERROR || config.adapter.getLoadMoreState() == LoadMoreState.NO_NETWORK)) {
-                        config.adapter.setLoadMoreState(LoadMoreState.LOADING)
-                        loadData(isLoadMore = true, isReLoad = true, showLoading = false)
-                    }
-                }
-            }
-        }
-
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            mainHandler.post {
-                if (isAttachedToWindow) {
-                    if (!config.viewModel.needNetwork()) {
-                        return@post
-                    }
-                    // 网络丢失，根据当前页面状态展示无网络
-                    if (currentPageState == PageState.LOAD_ERROR || currentPageState == PageState.LOADING) {
-                        showPageState(PageState.NO_NETWORK)
-                    } else if (currentPageState == PageState.NORMAL && config.adapter.getLoadMoreState() == LoadMoreState.ERROR) {
-                        config.adapter.setLoadMoreState(LoadMoreState.NO_NETWORK)
-                    }
-                }
-            }
-        }
     }
 
     class Config {

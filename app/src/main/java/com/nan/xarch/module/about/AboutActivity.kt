@@ -1,6 +1,8 @@
 package com.nan.xarch.module.about
 
 import android.os.Bundle
+import com.gyf.immersionbar.ktx.immersionBar
+import com.nan.xarch.R
 import com.nan.xarch.base.BaseActivity
 import com.nan.xarch.constant.EventName
 import com.nan.xarch.constant.PageName
@@ -15,8 +17,22 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>(ActivityAboutBinding::i
     }
 
     private fun initView() {
+        initSystemBar()
+
         viewBinding.tvAbout.setOnClickListener {
             XEventBus.post(EventName.TEST, "来自关于页面的消息")
+        }
+    }
+
+    /**
+     * 状态栏导航栏初始化
+     */
+    private fun initSystemBar() {
+        immersionBar {
+            transparentStatusBar()
+            statusBarDarkFont(true)
+            navigationBarColor(R.color.white)
+            navigationBarDarkIcon(true)
         }
     }
 

@@ -6,15 +6,22 @@
         <item name="colorAccent">@color/theme_color</item>
     </style>
 
-    <!--无标题栏样式-->
+    <!--基础样式-->
     <style name="ActivityTheme" parent="Theme.XArch">
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
-    <!--有标题栏样式-->
-    <style name="ActionBarActivityTheme" parent="Theme.XArch">
-
+    <!--完全透明样式-->
+    <style name="TranslucentActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
 </resources>

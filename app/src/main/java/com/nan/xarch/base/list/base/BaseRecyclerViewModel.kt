@@ -3,7 +3,7 @@ package com.nan.xarch.base.list.base
 import androidx.lifecycle.MutableLiveData
 import com.nan.xarch.base.BaseViewModel
 import com.nan.xarch.bean.LoadError
-import com.nan.xarch.util.isNetworkConnect
+import com.nan.xarch.util.NetworkHelper
 import java.util.concurrent.atomic.AtomicInteger
 
 abstract class BaseRecyclerViewModel : BaseViewModel() {
@@ -35,7 +35,7 @@ abstract class BaseRecyclerViewModel : BaseViewModel() {
     abstract fun loadData(isLoadMore: Boolean, isReLoad: Boolean, page: Int)
 
     fun loadDataInternal(isLoadMore: Boolean, isReLoad: Boolean) {
-        if (needNetwork() && !isNetworkConnect()) {
+        if (needNetwork() && !NetworkHelper.isNetworkConnect()) {
             postError(isLoadMore)
             return
         }

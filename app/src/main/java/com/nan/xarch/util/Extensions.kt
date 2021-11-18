@@ -13,6 +13,12 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 
 /**
+ * Kt扩展属性，判断Activity是否存活
+ */
+val Activity?.isAlive: Boolean
+    get() = !(this?.isDestroyed ?: true || this?.isFinishing ?: true)
+
+/**
  * Boolean转Visibility
  */
 fun Boolean.toVisibility() = if (this) View.VISIBLE else View.GONE

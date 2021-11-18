@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.nan.xarch.R
 import com.nan.xarch.databinding.ViewNavigationBinding
 import com.nan.xarch.util.getActivity
 import com.nan.xarch.util.toVisibility
@@ -22,6 +23,16 @@ class NavigationView @JvmOverloads constructor(
         viewBinding.run {
             ivBack.setOnClickListener(this@NavigationView)
         }
+
+        // 读取配置
+        val array = context.obtainStyledAttributes(attrs, R.styleable.NavigationView)
+        val title = array.getString(R.styleable.NavigationView_nav_title) ?: ""
+        val showBack = array.getBoolean(R.styleable.NavigationView_nav_show_back, true)
+        array.recycle()
+
+        setParameter(ParameterBuilder()
+            .setTitle(title)
+            .setShowBack(showBack))
     }
 
     override fun onClick(v: View?) {

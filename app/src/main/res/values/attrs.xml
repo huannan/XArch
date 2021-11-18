@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NavigationView">
+        <attr name="nav_title" format="string" />
+        <attr name="nav_show_back" format="boolean" />
+    </declare-styleable>
+
+</resources>
