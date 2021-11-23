@@ -11,5 +11,4 @@ class TabIndicatorView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     val viewBinding = ViewTabIndicatorBinding.inflate(LayoutInflater.from(context), this, true)
-
 }

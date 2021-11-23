@@ -2,6 +2,7 @@ package com.nan.xarch.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -15,6 +16,7 @@ abstract class BaseActivity<T : ViewBinding>(val inflater: (inflater: LayoutInfl
     protected lateinit var viewBinding: T
     private val compositeDisposable = CompositeDisposable()
 
+    @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = inflater(layoutInflater)
@@ -22,16 +24,19 @@ abstract class BaseActivity<T : ViewBinding>(val inflater: (inflater: LayoutInfl
         setSwipeBackEnable(swipeBackEnable())
     }
 
+    @CallSuper
     override fun onStart() {
         super.onStart()
         // 这里可以添加页面打点
     }
 
+    @CallSuper
     override fun onStop() {
         super.onStop()
         // 这里可以添加页面打点
     }
 
+    @CallSuper
     override fun onDestroy() {
         compositeDisposable.dispose()
         super.onDestroy()
