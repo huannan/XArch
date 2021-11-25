@@ -26,8 +26,9 @@ object XKeyValue {
     }
 
     fun clear() {
-        MMKV.defaultMMKV().clearMemoryCache()
-        MMKV.defaultMMKV().clearAll()
+        val defaultMMKV = getDefaultMMKV()
+        defaultMMKV.clearMemoryCache()
+        defaultMMKV.clearAll()
     }
 
     fun putBoolean(@Key key: String, value: Boolean) {
