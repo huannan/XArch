@@ -11,6 +11,8 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.nan.xarch.R
 
 /**
  * Kt扩展属性，判断Activity是否存活
@@ -59,10 +61,22 @@ val Float.radians: Float
     get() = Math.toRadians(this.toDouble()).toFloat()
 
 fun ImageView.setImageUrl(url: String) {
+    val options: RequestOptions = RequestOptions()
+        .placeholder(R.color.bg_image)
+        .error(R.color.bg_image)
     Glide.with(context)
+        .applyDefaultRequestOptions(options)
         .load(url)
         .into(this)
 }
 
 val String?.nullSafeValue: String
     get() = this ?: ""
+
+fun <T> Result<T>.get(): T {
+    return this.getOrNull()!!
+}
+
+fun Result<*>.exception(): Throwable {
+    return this.exceptionOrNull()!!
+}

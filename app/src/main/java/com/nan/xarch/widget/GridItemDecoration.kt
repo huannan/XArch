@@ -29,5 +29,9 @@ class GridItemDecoration(
         outRect.left = if (column == 0) padding else column * itemGap / spanCount
         outRect.right = if (column == spanCount - 1) padding else itemGap - (column + 1) * itemGap / spanCount
         outRect.bottom = linePadding
+
+        if (position == 0 || position == 1) {
+            outRect.top = linePadding
+        }
     }
 }

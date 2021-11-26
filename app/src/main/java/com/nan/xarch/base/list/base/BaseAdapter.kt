@@ -1,15 +1,13 @@
 package com.nan.xarch.base.list.base
 
 import com.nan.xarch.base.list.multitype.MultiTypeAdapter
-import com.nan.xarch.item.LoadMoreViewDelegate
-import com.nan.xarch.item.Test1ViewDelegate
-import com.nan.xarch.item.Test2ViewDelegate
-import com.nan.xarch.item.Test3ViewDelegate
+import com.nan.xarch.item.*
 
 open class BaseAdapter : MultiTypeAdapter() {
 
     init {
         register(LoadMoreViewDelegate())
+        register(AcgnVideoViewDelegate())
         register(Test1ViewDelegate())
         register(Test2ViewDelegate())
         register(Test3ViewDelegate())

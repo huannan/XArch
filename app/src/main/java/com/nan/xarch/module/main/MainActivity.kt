@@ -10,10 +10,9 @@ import com.nan.xarch.constant.PageName
 import com.nan.xarch.constant.TabId
 import com.nan.xarch.databinding.ActivityMainBinding
 import com.nan.xarch.module.acgn.AcgnFragment
-import com.nan.xarch.module.gold.GoldFragment
+import com.nan.xarch.module.discovery.DiscoveryFragment
 import com.nan.xarch.module.home.HomeFragment
 import com.nan.xarch.module.mine.MineFragment
-import com.nan.xarch.module.smallvideo.SmallVideoFragment
 import com.nan.xarch.widget.NavigationView
 import com.nan.xarch.widget.TabIndicatorView
 
@@ -61,9 +60,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun initTabs() {
         val tabs = listOf(
             Tab(TabId.HOME, getString(R.string.page_home), R.drawable.selector_btn_home, HomeFragment::class),
-            Tab(TabId.SMALL_VIDEO, getString(R.string.page_small_video), R.drawable.selector_btn_small_video, SmallVideoFragment::class),
             Tab(TabId.ACGN, getString(R.string.page_acgn), R.drawable.selector_btn_acgn, AcgnFragment::class),
-            Tab(TabId.GOLD, getString(R.string.page_gold), R.drawable.selector_btn_gold, GoldFragment::class),
+            // Tab(TabId.SMALL_VIDEO, getString(R.string.page_small_video), R.drawable.selector_btn_small_video, SmallVideoFragment::class),
+            // Tab(TabId.GOLD, getString(R.string.page_gold), R.drawable.selector_btn_gold, GoldFragment::class),
+            Tab(TabId.DISCOVERY, getString(R.string.page_discovery), R.drawable.selector_btn_discovery, DiscoveryFragment::class),
             Tab(TabId.MINE, getString(R.string.page_mine), R.drawable.selector_btn_mine, MineFragment::class)
         )
 
@@ -98,6 +98,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             TabId.ACGN -> getString(R.string.page_acgn)
             TabId.GOLD -> getString(R.string.page_gold)
             TabId.MINE -> getString(R.string.page_mine)
+            TabId.DISCOVERY -> getString(R.string.page_discovery)
             else -> ""
         }
 

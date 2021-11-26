@@ -26,7 +26,7 @@
         android:layout_marginBottom="12dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/selector_bottom_bar_title_color"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

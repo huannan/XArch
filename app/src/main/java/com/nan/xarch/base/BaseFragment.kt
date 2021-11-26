@@ -1,5 +1,7 @@
 package com.nan.xarch.base
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,12 @@ abstract class BaseFragment<T : ViewBinding>(val inflater: (inflater: LayoutInfl
 
     protected lateinit var viewBinding: T
     private val compositeDisposable = CompositeDisposable()
+    protected lateinit var activity: Activity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = requireActivity()
+    }
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

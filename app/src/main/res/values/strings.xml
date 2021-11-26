@@ -5,6 +5,7 @@
     <string name="page_acgn">二次元</string>
     <string name="page_gold">领福利</string>
     <string name="page_mine">我的</string>
+    <string name="page_discovery">发现</string>
     <string name="page_about">关于</string>
 
     <string name="page_state_no_network">无网络连接，请检查网络设置</string>

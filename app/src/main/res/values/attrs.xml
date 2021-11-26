@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <declare-styleable name="NavigationView">
         <attr name="nav_title" format="string" />
         <attr name="nav_show_back" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="RoundAngleImageView">
+        <attr name="img_radius" format="dimension" />
+        <attr name="img_left_top_radius" format="dimension" />
+        <attr name="img_right_top_radius" format="dimension" />
+        <attr name="img_right_bottom_radius" format="dimension" />
+        <attr name="img_left_bottom_radius" format="dimension" />
+    </declare-styleable>
 </resources>

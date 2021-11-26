@@ -2,7 +2,16 @@ package com.nan.xarch.constant
 
 import androidx.annotation.StringDef
 
-@StringDef(PageName.MAIN, PageName.HOME, PageName.ACGN, PageName.SMALL_VIDEO, PageName.GOLD, PageName.MINE, PageName.ABOUT)
+@StringDef(
+    PageName.MAIN,
+    PageName.HOME,
+    PageName.ACGN,
+    PageName.SMALL_VIDEO,
+    PageName.GOLD,
+    PageName.MINE,
+    PageName.ABOUT,
+    PageName.DISCOVERY,
+)
 @Retention(AnnotationRetention.SOURCE)
 annotation class PageName {
     companion object {
@@ -13,5 +22,6 @@ annotation class PageName {
         const val GOLD = "gold"
         const val MINE = "mine"
         const val ABOUT = "about"
+        const val DISCOVERY = "discovery"
     }
 }

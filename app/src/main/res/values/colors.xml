@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="theme_color">#FBC106</color>
-
     <color name="transparent">#00FFFFFF</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
@@ -12,7 +11,6 @@
     <color name="white">#FFFFFFFF</color>
     <!--分割线黑色3%透明度-->
     <color name="line_color">#08000000</color>
-
     <color name="black_00_color">#00000000</color>
     <color name="black_02_color">#05000000</color>
     <color name="black_03_color">#08000000</color>
@@ -37,7 +35,6 @@
     <color name="black_80_color">#CD000000</color>
     <color name="black_85_color">#D9000000</color>
     <color name="black_90_color">#E6000000</color>
-
     <color name="white_00_color">#00FFFFFF</color>
     <color name="white_02_color">#05FFFFFF</color>
     <color name="white_03_color">#08FFFFFF</color>
@@ -56,4 +53,6 @@
     <color name="white_70_color">#B3FFFFFF</color>
     <color name="white_80_color">#CCFFFFFF</color>
     <color name="white_90_color">#E6FFFFFF</color>
+    <color name="bg_window">#F1F2F3</color>
+    <color name="bg_image">#E7E7E7</color>
 </resources>

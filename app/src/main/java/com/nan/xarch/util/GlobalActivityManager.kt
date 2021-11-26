@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.nan.xarch.base.BaseActivity
@@ -60,8 +60,8 @@ object GlobalActivityManager {
         return if (activityStack.isNotEmpty()) activityStack[activityStack.size - 1] else null
     }
 
-    fun getTopComponentActivity(): ComponentActivity? {
-        return getTopActivity() as? ComponentActivity
+    fun getTopAppCompatActivity(): AppCompatActivity? {
+        return getTopActivity() as? AppCompatActivity
     }
 
     fun getTopSelfActivity(): BaseActivity<*>? {
@@ -75,11 +75,7 @@ object GlobalActivityManager {
     }
 
     fun getTopActivityLifecycleScope(): LifecycleCoroutineScope? {
-        return getTopComponentActivity()?.lifecycleScope
-    }
-
-    fun getTopSelfActivityLifecycleScope(): LifecycleCoroutineScope? {
-        return getTopSelfActivity()?.lifecycleScope
+        return getTopAppCompatActivity()?.lifecycleScope
     }
 
     fun finishAll() {
