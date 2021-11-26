@@ -25,10 +25,8 @@ object XKeyValue {
         return MMKV.mmkvWithID(ID_ACCOUNT, MMKV.SINGLE_PROCESS_MODE)
     }
 
-    fun clear() {
-        val defaultMMKV = getDefaultMMKV()
-        defaultMMKV.clearMemoryCache()
-        defaultMMKV.clearAll()
+    fun clear(mmkv: MMKV) {
+        mmkv.clearAll()
     }
 
     fun putBoolean(@Key key: String, value: Boolean) {
