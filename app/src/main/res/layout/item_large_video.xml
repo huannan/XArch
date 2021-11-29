@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_acgn"
-    android:paddingBottom="@dimen/acgn_item_padding">
+    android:background="@drawable/bg_video_item"
+    android:paddingBottom="@dimen/item_padding"
+    android:translationZ="@dimen/item_translation_z">
 
     <com.nan.xarch.widget.RoundAngleImageView
         android:id="@+id/iv_cover"
         android:layout_width="0dp"
-        android:layout_height="88dp"
-        android:background="@drawable/bg_acgn_video_item_cover"
+        android:layout_height="160dp"
         android:scaleType="centerCrop"
-        app:img_radius="@dimen/acgn_item_cover_radius"
+        android:src="@drawable/bg_video_item_cover"
+        app:img_left_top_radius="@dimen/item_radius"
+        app:img_right_top_radius="@dimen/item_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,15 +23,15 @@
     <View
         android:layout_width="0dp"
         android:layout_height="28dp"
-        android:background="@drawable/fg_acgn_cover"
+        android:background="@drawable/fg_video_item_cover"
         app:layout_constraintBottom_toBottomOf="@id/iv_cover"
         app:layout_constraintEnd_toEndOf="@id/iv_cover"
         app:layout_constraintStart_toStartOf="@id/iv_cover" />
 
     <ImageView
         android:id="@+id/iv_play_count"
-        android:layout_width="@dimen/acgn_item_icon_size"
-        android:layout_height="@dimen/acgn_item_icon_size"
+        android:layout_width="@dimen/video_item_icon_size"
+        android:layout_height="@dimen/video_item_icon_size"
         android:layout_marginStart="7dp"
         android:layout_marginBottom="5.67dp"
         android:src="@drawable/icon_play_count"
@@ -53,8 +55,8 @@
 
     <ImageView
         android:id="@+id/iv_play_duration"
-        android:layout_width="@dimen/acgn_item_icon_size"
-        android:layout_height="@dimen/acgn_item_icon_size"
+        android:layout_width="@dimen/video_item_icon_size"
+        android:layout_height="@dimen/video_item_icon_size"
         android:layout_marginEnd="4dp"
         android:src="@drawable/icon_video_duration"
         app:layout_constraintBottom_toBottomOf="@id/iv_play_count"
@@ -81,8 +83,9 @@
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/acgn_item_padding"
+        android:layout_marginStart="@dimen/item_padding"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="@dimen/item_padding"
         android:ellipsize="end"
         android:lines="2"
         android:text="我是视频标题我是视频标题我是视频标题"
@@ -96,7 +99,7 @@
         android:id="@+id/iv_up"
         android:layout_width="13dp"
         android:layout_height="13dp"
-        android:layout_marginStart="@dimen/acgn_item_padding"
+        android:layout_marginStart="@dimen/item_padding"
         android:layout_marginTop="10dp"
         android:src="@drawable/icon_up"
         app:layout_constraintStart_toStartOf="parent"

@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.nan.xarch.R
 import com.nan.xarch.base.BaseFragment
 import com.nan.xarch.base.list.XRecyclerView
 import com.nan.xarch.base.list.base.BaseViewData
@@ -36,7 +35,7 @@ class AcgnFragment : BaseFragment<FragmentAcgnBinding>(FragmentAcgnBinding::infl
             .setPullRefreshEnable(true)
             .setPullUploadMoreEnable(true)
             .setLayoutManager(GridLayoutManager(activity, ACGN_SPAN_COUNT))
-            .setItemDecoration(GridItemDecoration(ACGN_SPAN_COUNT, resources.getDimensionPixelOffset(R.dimen.acgn_item_padding), resources.getDimensionPixelOffset(R.dimen.acgn_item_padding), resources.getDimensionPixelOffset(R.dimen.acgn_item_padding)))
+            .setItemDecoration(GridItemDecoration(activity, ACGN_SPAN_COUNT))
             .setOnItemClickListener(object : XRecyclerView.OnItemClickListener {
                 override fun onItemClick(parent: RecyclerView, view: View, viewData: BaseViewData<*>, position: Int, id: Long) {
                     Toast.makeText(context, "条目点击: ${viewData.value}", Toast.LENGTH_SHORT).show()
@@ -44,9 +43,7 @@ class AcgnFragment : BaseFragment<FragmentAcgnBinding>(FragmentAcgnBinding::infl
             })
             .setOnItemChildViewClickListener(object : XRecyclerView.OnItemChildViewClickListener {
                 override fun onItemChildViewClick(parent: RecyclerView, view: View, viewData: BaseViewData<*>, position: Int, id: Long, extra: Any?) {
-                    if (extra is String) {
-                        Toast.makeText(context, "条目子View点击: $extra", Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(context, "条目子View点击: $extra", Toast.LENGTH_SHORT).show()
                 }
             }))
     }

@@ -10,6 +10,8 @@ import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.nan.xarch.R
@@ -28,9 +30,9 @@ fun Boolean.toVisibility() = if (this) View.VISIBLE else View.GONE
 /**
  * Context转Activity
  */
-fun Context.getActivity(): Activity? {
+fun Context.getActivity(): FragmentActivity? {
     return when (this) {
-        is Activity -> {
+        is FragmentActivity -> {
             this
         }
         is ContextWrapper -> {
@@ -72,6 +74,18 @@ fun ImageView.setImageUrl(url: String) {
 
 val String?.nullSafeValue: String
     get() = this ?: ""
+
+fun RecyclerView.ViewHolder.getResources(): Resources {
+    return itemView.resources
+}
+
+fun RecyclerView.ViewHolder.getContext(): Context {
+    return itemView.context
+}
+
+fun RecyclerView.ViewHolder.getActivity(): FragmentActivity {
+    return getContext().getActivity()!!
+}
 
 fun <T> Result<T>.get(): T {
     return this.getOrNull()!!

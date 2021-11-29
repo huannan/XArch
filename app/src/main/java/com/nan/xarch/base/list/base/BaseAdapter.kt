@@ -7,10 +7,14 @@ open class BaseAdapter : MultiTypeAdapter() {
 
     init {
         register(LoadMoreViewDelegate())
-        register(AcgnVideoViewDelegate())
+        register(BannerViewDelegate())
+        register(VideoViewDelegate())
+        register(LargeVideoViewDelegate())
+        register(CatagoryListViewDelegate())
+        register(CatagoryViewDelegate())
+        register(GoodsViewDelegate())
         register(Test1ViewDelegate())
         register(Test2ViewDelegate())
-        register(Test3ViewDelegate())
     }
 
     open fun setViewData(viewData: List<BaseViewData<*>>) {

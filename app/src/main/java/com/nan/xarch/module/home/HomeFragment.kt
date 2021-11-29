@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nan.xarch.base.BaseFragment
 import com.nan.xarch.base.list.XRecyclerView
@@ -12,6 +13,7 @@ import com.nan.xarch.constant.EventName
 import com.nan.xarch.constant.PageName
 import com.nan.xarch.databinding.FragmentHomeBinding
 import com.nan.xarch.eventbus.XEventBus
+import com.nan.xarch.widget.GridItemDecoration
 
 /**
  * 首页
@@ -19,6 +21,10 @@ import com.nan.xarch.eventbus.XEventBus
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val viewModel: HomeViewModel by viewModels()
+
+    companion object {
+        private const val HOME_SPAN_COUNT = 2
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,6 +34,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun initView() {
         viewBinding.rvList.init(XRecyclerView.Config()
             .setViewModel(viewModel)
+            .setPullRefreshEnable(true)
+            .setPullUploadMoreEnable(true)
+            .setLayoutManager(GridLayoutManager(activity, HOME_SPAN_COUNT))
+            .setItemDecoration(GridItemDecoration(activity, HOME_SPAN_COUNT))
             .setOnItemClickListener(object : XRecyclerView.OnItemClickListener {
                 override fun onItemClick(parent: RecyclerView, view: View, viewData: BaseViewData<*>, position: Int, id: Long) {
                     Toast.makeText(context, "条目点击: ${viewData.value}", Toast.LENGTH_SHORT).show()

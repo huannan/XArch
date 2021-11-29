@@ -35,6 +35,7 @@ versions.leakcanary = "2.7"
 versions.immersionbar = "3.0.0"
 versions.swipebacklayout = "1.1.0"
 versions.ptr = "1.0.11"
+versions.banner = "2.2.2"
 ext.versions = versions
 
 /**
@@ -80,6 +81,10 @@ def addRepos(RepositoryHandler handler) {
     handler.maven {
         allowInsecureProtocol true
         url 'https://jitpack.io'
+    }
+    handler.maven {
+        allowInsecureProtocol true
+        url 'https://s01.oss.sonatype.org/content/groups/public'
     }
     handler.mavenCentral()
     handler.google()

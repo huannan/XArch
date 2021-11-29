@@ -85,10 +85,10 @@ class LoadMoreAdapter : BaseAdapter() {
             lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     val viewData = getViewData(position)
-                    return if (viewData is LoadMoreViewData) {
-                        lm.spanCount
-                    } else {
+                    return if (viewData?.isGridViewData() == true) {
                         oldSpanSizeLookup.getSpanSize(position)
+                    } else {
+                        lm.spanCount
                     }
                 }
             }

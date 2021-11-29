@@ -4,7 +4,8 @@
     <dimen name="bottom_bar_padding">15dp</dimen>
     <dimen name="line_height">0.7dp</dimen>
     <dimen name="bottom_tab_image_size">24dp</dimen>
-    <dimen name="acgn_item_cover_radius">5dp</dimen>
-    <dimen name="acgn_item_icon_size">12dp</dimen>
-    <dimen name="acgn_item_padding">10dp</dimen>
+    <dimen name="item_radius">5dp</dimen>
+    <dimen name="video_item_icon_size">12dp</dimen>
+    <dimen name="item_padding">10dp</dimen>
+    <dimen name="item_translation_z">1dp</dimen>
 </resources>

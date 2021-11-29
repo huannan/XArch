@@ -12,4 +12,9 @@
         <attr name="img_right_bottom_radius" format="dimension" />
         <attr name="img_left_bottom_radius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SettingItemView">
+        <attr name="setting_item_icon" format="reference" />
+        <attr name="setting_item_title" format="string" />
+    </declare-styleable>
 </resources>

@@ -152,4 +152,7 @@ dependencies {
 
     // 下拉刷新
     implementation("in.srain.cube:ultra-ptr:${versions.ptr}")
+
+    // Banner
+    implementation("io.github.youth5201314:banner:${versions.banner}")
 }

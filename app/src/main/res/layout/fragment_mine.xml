@@ -1,17 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_mine"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="我的"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_user"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp">
+
+            <ImageView
+                android:id="@+id/iv_user_icon"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:src="@drawable/icon_user"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:text="用户名"
+                android:textColor="#1C2C2A"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@id/tv_user_phone"
+                app:layout_constraintStart_toEndOf="@id/iv_user_icon"
+                app:layout_constraintTop_toTopOf="@id/iv_user_icon"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="用户信息"
+                android:textColor="#801C2C2A"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_user_icon"
+                app:layout_constraintStart_toStartOf="@id/tv_user_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.nan.xarch.widget.SettingItemView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:setting_item_icon="@drawable/icon_history"
+            app:setting_item_title="@string/setting_item_history" />
+
+        <com.nan.xarch.widget.SettingItemView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:setting_item_icon="@drawable/icon_collection"
+            app:setting_item_title="@string/setting_item_collection" />
+
+        <com.nan.xarch.widget.SettingItemView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:setting_item_icon="@drawable/icon_subscribe"
+            app:setting_item_title="@string/setting_item_subscribe" />
+
+        <com.nan.xarch.widget.SettingItemView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:setting_item_icon="@drawable/icon_setting"
+            app:setting_item_title="@string/setting_item_setting" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

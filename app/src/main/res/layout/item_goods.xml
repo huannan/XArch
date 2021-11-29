@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:background="@drawable/bg_goods_item"
+    android:paddingBottom="@dimen/item_padding"
+    android:translationZ="@dimen/item_translation_z">
+
+    <com.nan.xarch.widget.RoundAngleImageView
+        android:id="@+id/iv_goods"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@color/bg_image"
+        app:img_left_top_radius="@dimen/item_radius"
+        app:img_right_top_radius="@dimen/item_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/item_padding"
+        android:layout_marginTop="@dimen/item_padding"
+        android:text="我是商品标题"
+        android:textColor="@color/black_90_color"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_goods" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/item_padding"
+        android:text="￥100"
+        android:textColor="@color/theme_color"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/item_padding"
+        android:text="50000人想要"
+        android:textColor="@color/black_45_color"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
