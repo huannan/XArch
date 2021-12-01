@@ -7,5 +7,4 @@ class GoldViewModel : BaseViewModel() {
 
     @PageName
     override fun getPageName() = PageName.GOLD
-
 }

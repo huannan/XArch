@@ -7,5 +7,4 @@ class MainViewModel : BaseViewModel() {
 
     @PageName
     override fun getPageName() = PageName.HOME
-
 }

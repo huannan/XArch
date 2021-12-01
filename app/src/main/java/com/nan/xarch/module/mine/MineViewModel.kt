@@ -7,5 +7,4 @@ class MineViewModel : BaseViewModel() {
 
     @PageName
     override fun getPageName() = PageName.MINE
-
 }

@@ -70,5 +70,4 @@ class AcgnViewModel : BaseRecyclerViewModel() {
 
     @PageName
     override fun getPageName() = PageName.ACGN
-
 }

@@ -58,24 +58,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.nan.xarch.widget.SettingItemView
+            android:id="@+id/item_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:setting_item_icon="@drawable/icon_history"
             app:setting_item_title="@string/setting_item_history" />
 
         <com.nan.xarch.widget.SettingItemView
+            android:id="@+id/item_collection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:setting_item_icon="@drawable/icon_collection"
             app:setting_item_title="@string/setting_item_collection" />
 
         <com.nan.xarch.widget.SettingItemView
+            android:id="@+id/item_subscribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:setting_item_icon="@drawable/icon_subscribe"
             app:setting_item_title="@string/setting_item_subscribe" />
 
         <com.nan.xarch.widget.SettingItemView
+            android:id="@+id/item_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:setting_item_icon="@drawable/icon_setting"

@@ -21,5 +21,4 @@ class SmallVideoViewModel : BaseViewModel() {
 
     @PageName
     override fun getPageName() = PageName.SMALL_VIDEO
-
 }

@@ -20,6 +20,18 @@ class MineFragment : BaseFragment<FragmentMineBinding>(FragmentMineBinding::infl
     }
 
     private fun initView() {
+        viewBinding.itemHistory.setOnClickListener {
+
+        }
+        viewBinding.itemCollection.setOnClickListener {
+
+        }
+        viewBinding.itemSubscribe.setOnClickListener {
+
+        }
+        viewBinding.itemSetting.setOnClickListener {
+
+        }
     }
 
     @PageName
