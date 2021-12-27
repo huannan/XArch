@@ -19,6 +19,16 @@
 
 最近公司准备上线新项目，由笔者来负责搭建项目架构，正好也把之前学的Kotlin等相关知识巩固一下，于是把搭建的成果抽取出来作为开源项目分享给大家。另外，该项目也是大家学习Kotlin一个很好的示例，另外该项目稍作修改完全可以作为一个新项目的蓝本。
 
+下面放上几张项目效果图：
+
+![首页](https://upload-images.jianshu.io/upload_images/2570030-e18cb4ac505b6a26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![二次元](https://upload-images.jianshu.io/upload_images/2570030-d8345a9a8040f73c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![发现](https://upload-images.jianshu.io/upload_images/2570030-aba6c7770b1c272c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![我的](https://upload-images.jianshu.io/upload_images/2570030-e15622e146eaef55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ### 架构总体介绍
 
 一个良好的架构需要什么，根据设计原则，有以下：
