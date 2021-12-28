@@ -1,6 +1,8 @@
 本文章已授权微信公众号 guolin_blog （郭霖）独家发布。
 发布地址：[手把手带你搭建一个优秀的Android项目架构](https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650258650&idx=1&sn=ae258f977da27c31c2c0c6a2806438e0&chksm=88634db5bf14c4a3206700ed340c9de58383b4cabd4de060db8a78789e8b3ef0d6031dbb7a99&mpshare=1&scene=1&srcid=0910xjtv2MhEynl3yi9UGJOA&sharer_sharetime=1631236910632&sharer_shareid=8245fe44cd1f6c522efa500f73bf5205&exportkey=AygMNQx3lYnQnyeid0swMNE%3D&pass_ticket=VlfDQiVyltIkpHDrGW04ftXL2hyRdDn5gpggzvZoolXa0PUKHTY6JBJnAx%2BNWKNe&wx_header=0#rd)
 
+![封面](https://upload-images.jianshu.io/upload_images/2570030-5b15a50d4bd9b054.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ### 目录
 
 * [前言](#前言)
