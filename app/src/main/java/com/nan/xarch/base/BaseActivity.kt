@@ -11,9 +11,10 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity
 /**
  * Activity基类
  */
-abstract class BaseActivity<T : ViewBinding>(val inflater: (inflater: LayoutInflater) -> T) : SwipeBackActivity(), IGetPageName {
+abstract class BaseActivity<T : ViewBinding> : SwipeBackActivity(), IGetPageName {
 
     protected lateinit var viewBinding: T
+    protected abstract val inflater: (inflater: LayoutInflater) -> T
     private val compositeDisposable = CompositeDisposable()
 
     @CallSuper

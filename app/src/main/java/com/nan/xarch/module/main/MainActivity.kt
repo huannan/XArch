@@ -1,6 +1,7 @@
 package com.nan.xarch.module.main
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.gyf.immersionbar.ktx.immersionBar
 import com.nan.xarch.R
@@ -19,9 +20,11 @@ import com.nan.xarch.widget.TabIndicatorView
 /**
  * 首页
  */
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel: MainViewModel by viewModels()
+    override val inflater: (inflater: LayoutInflater) -> ActivityMainBinding
+        get() = ActivityMainBinding::inflate
 
     // 当前选中的底栏ID
     @TabId

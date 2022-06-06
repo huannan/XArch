@@ -63,28 +63,24 @@ ext.paths = paths
  */
 def addRepos(RepositoryHandler handler) {
     handler.maven {
+        url 'https://maven.aliyun.com/repository/public'
         allowInsecureProtocol true
-        url 'http://maven.aliyun.com/nexus/content/groups/public/'
     }
     handler.maven {
+        url 'https://maven.aliyun.com/repository/google'
         allowInsecureProtocol true
-        url 'http://maven.aliyun.com/repository/google/'
     }
     handler.maven {
+        url 'https://maven.aliyun.com/repository/central'
         allowInsecureProtocol true
-        url 'https://maven.aliyun.com/repository/jcenter/'
     }
     handler.maven {
+        url 'https://maven.aliyun.com/repository/gradle-plugin'
         allowInsecureProtocol true
-        url 'https://maven.aliyun.com/repository/public/'
     }
     handler.maven {
-        allowInsecureProtocol true
         url 'https://jitpack.io'
-    }
-    handler.maven {
         allowInsecureProtocol true
-        url 'https://s01.oss.sonatype.org/content/groups/public'
     }
     handler.mavenCentral()
     handler.google()

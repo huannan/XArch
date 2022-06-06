@@ -250,10 +250,11 @@ abstract class BaseActivity : SwipeBackActivity(), IGetPageName {
 /**
  * Activity基类
  */
-abstract class BaseActivity<T : ViewBinding>(val inflater: (inflater: LayoutInflater) -> T) : SwipeBackActivity() {
+abstract class BaseActivity<T : ViewBinding> : SwipeBackActivity() {
 
     protected lateinit var viewBinding: T
-
+    protected abstract val inflater: (inflater: LayoutInflater) -> T
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = inflater(layoutInflater)
@@ -264,24 +265,28 @@ abstract class BaseActivity<T : ViewBinding>(val inflater: (inflater: LayoutInfl
 /**
  * Fragment基类
  */
-abstract class BaseFragment<T : ViewBinding>(val inflater: (inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> T) : Fragment() {
+abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     protected lateinit var viewBinding: T
-
+    protected abstract val inflater: (LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> T
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = this.inflater(inflater, container, false)
+        viewBinding = inflater(inflater, container, false)
         return viewBinding.root
     }
 }
 ```
 
-我们定义了一个泛型参数，并定义一个子类可以访问的成员，然后在主构造函数里面添加了ViewBinding初始化的高阶函数，并且在对应的onCreate/onCreateView里面调用这个高阶函数初始化ViewBinding，在继承Base类的时候，只需要简单传入XXXViewBinding::inflate即可，以MainActivity为例子：
+为了避免给Activity/Fragment添加其它构造函数，采用泛型+抽象属性的方式来封装基类，继承基类的时候，除了传入具体的泛型之外，还需要重写抽象属性。以MainActivity为例子：
 
 ```kotlin
 /**
  * 首页
  */
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+
+    override val inflater: (inflater: LayoutInflater) -> ActivityMainBinding
+        get() = ActivityMainBinding::inflate
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
